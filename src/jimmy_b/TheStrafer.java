@@ -8,7 +8,8 @@ public class TheStrafer extends AdvancedRobot {
     private EnemyBot enemy = new EnemyBot();
     private byte moveDirection = 1;
     private boolean ramTime = false;
-    private int missedShot = 0;
+    private int bulletMiss = 0;
+    private int bulletHit = 0;
 
     public void run() {
         setAllColors(Color.black);
@@ -39,7 +40,10 @@ public class TheStrafer extends AdvancedRobot {
 
         smartFire();
 
-        if (getOthers() == 1 && (getEnergy() > enemy.getEnergy() * 2 || missedShot > 7)) {
+        // If there's only one enemy left and our energy is twice as much as theirs, or...
+        if (getOthers() == 1 && (getEnergy() > enemy.getEnergy() * 2 ||
+                // we keep missing our target
+                (bulletMiss > 7 && bulletMiss > bulletHit))) {
             // Go berserk!
             ramEnemy();
         } else {
@@ -51,7 +55,7 @@ public class TheStrafer extends AdvancedRobot {
     private void trackEnemy(ScannedRobotEvent e) {
         if (// we have no enemy, or...
                 enemy.none() ||
-                        // the one we scanned is closer, or..
+                        // the one we scanned is closer, or...
                         e.getDistance() < enemy.getDistance() ||
                         // the one we scanned has less energy, or...
                         e.getEnergy() < enemy.getEnergy() ||
@@ -77,7 +81,12 @@ public class TheStrafer extends AdvancedRobot {
 
     public void onBulletMissed(BulletMissedEvent e) {
         if (getOthers() == 1)
-            missedShot++;
+            bulletMiss++;
+    }
+
+    public void onBulletHit(BulletHitEvent e) {
+        if (getOthers() == 1)
+            bulletHit++;
     }
 
     private void ramEnemy() {
