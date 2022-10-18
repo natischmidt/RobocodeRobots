@@ -5,7 +5,7 @@ import robocode.*;
 import java.awt.*;
 
 public class TheStrafer extends AdvancedRobot {
-    private EnemyBot enemy = new EnemyBot();
+    private EnemyBot currentTarget = new EnemyBot();
     private byte moveDirection = 1;
     private boolean ramTime = false;
     private int bulletMiss = 0;
@@ -18,52 +18,58 @@ public class TheStrafer extends AdvancedRobot {
         setAdjustRadarForGunTurn(true);
         setAdjustRadarForRobotTurn(true);
         setAdjustGunForRobotTurn(true);
-        enemy.reset();
+        currentTarget.reset();
 
         while (true) {
-            if (enemy.none() || getVelocity() == 0)
-                setTurnRadarRight(360);
-            if (getOthers() > 1 && enemy.getDistance() > 700)
-                enemy.reset();
-            if (getTime() % 30 == 0)
-                moveDirection *= -1;
+            scanForNewTarget();
+            moveRobot();
             execute();
         }
     }
+    private void scanForNewTarget() {
+        if (currentTarget.none() || getVelocity() == 0)
+            setTurnRadarRight(360);
+        if (getOthers() > 1 && currentTarget.getDistance() > 700)
+            currentTarget.reset();
+    }
 
-    public void onScannedRobot(ScannedRobotEvent e) {
-        trackEnemy(e);
-
-        // Lock on target
-        setTurnRadarRight(getHeading() - getRadarHeading() + enemy.getBearing());
-        setTurnGunRight(getHeading() - getGunHeading() + enemy.getBearing());
-
-        smartFire();
-
+    private void moveRobot() {
         // If there's only one enemy left and our energy is twice as much as theirs, or...
-        if (getOthers() == 1 && (getEnergy() > enemy.getEnergy() * 2 ||
+        if (getOthers() == 1 && (getEnergy() > currentTarget.getEnergy() * 2 ||
                 // we keep missing our target
-                (bulletMiss > 7 && bulletMiss > bulletHit))) {
+                (bulletMiss > 5 && bulletMiss > bulletHit))) {
             // Go berserk!
             ramEnemy();
         } else {
             // They see me strafin', they hatin'...
             strafeEnemy();
         }
+        if (getTime() % 30 == 0)
+            moveDirection *= -1;
     }
 
-    private void trackEnemy(ScannedRobotEvent e) {
+    public void onScannedRobot(ScannedRobotEvent scannedRobot) {
+        trackEnemy(scannedRobot);
+
+        // Lock on target
+        setTurnRadarRight(getHeading() - getRadarHeading() + currentTarget.getBearing());
+        setTurnGunRight(getHeading() - getGunHeading() + currentTarget.getBearing());
+
+        smartFire();
+    }
+
+    private void trackEnemy(ScannedRobotEvent scannedRobot) {
         if (// we have no enemy, or...
-                enemy.none() ||
+                currentTarget.none() ||
                         // the one we scanned is closer, or...
-                        e.getDistance() < enemy.getDistance() ||
+                        scannedRobot.getDistance() < currentTarget.getDistance() ||
                         // the one we scanned has less energy, or...
-                        e.getEnergy() < enemy.getEnergy() ||
+                        scannedRobot.getEnergy() < currentTarget.getEnergy() ||
                         // we found the one we're already tracking
-                        e.getName().equals(enemy.getName())
+                        scannedRobot.getName().equals(currentTarget.getName())
         ) {
             // track robot!
-            enemy.update(e);
+            currentTarget.update(scannedRobot);
         }
     }
 
@@ -71,11 +77,11 @@ public class TheStrafer extends AdvancedRobot {
         // The gun isn't overheated or too far away from the target
         if (getGunHeat() == 0 && Math.abs(getGunTurnRemaining()) < 20) {
             // If the enemy isn't moving...
-            if (enemy.getVelocity() == 0)
+            if (currentTarget.getVelocity() == 0)
                 setFire(3);
             else
                 // Adjust firepower to the distance of our target
-                setFire(Math.min(500 / enemy.getDistance(), 3));
+                setFire(Math.min(500 / currentTarget.getDistance(), 3));
         }
     }
 
@@ -92,31 +98,31 @@ public class TheStrafer extends AdvancedRobot {
     private void ramEnemy() {
         ramTime = true;
         setAllColors(Color.red);
-        setTurnRight(enemy.getBearing());
-        setAhead(enemy.getDistance() + 5);
+        setTurnRight(currentTarget.getBearing());
+        setAhead(currentTarget.getDistance() + 5);
         execute();
     }
 
     private void strafeEnemy() {
-        if (enemy.getDistance() < 100) {
+        if (currentTarget.getDistance() < 100) {
             // Back a little...
-            setTurnRight(enemy.getBearing());
-            setBack(100 - enemy.getDistance());
-        } else if (enemy.getDistance() > 500) {
+            setTurnRight(currentTarget.getBearing());
+            setBack(100 - currentTarget.getDistance());
+        } else if (currentTarget.getDistance() > 500) {
             // Get closer...
-            setTurnRight(enemy.getBearing());
-            setAhead(enemy.getDistance() - 100);
+            setTurnRight(currentTarget.getBearing());
+            setAhead(currentTarget.getDistance() - 100);
         }
         // Strafe...
-        setTurnRight(enemy.getBearing() + 90);
+        setTurnRight(currentTarget.getBearing() + 90);
         setAhead(100 * moveDirection);
     }
 
     public void onRobotDeath(RobotDeathEvent e) {
         // if the enemy we were tracking died...
-        if (e.getName().equals(enemy.getName())) {
+        if (e.getName().equals(currentTarget.getName())) {
             // clear tracking-info, so we can track another robot
-            enemy.reset();
+            currentTarget.reset();
         }
     }
 
