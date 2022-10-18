@@ -13,7 +13,7 @@ public class AdvancedSteffoBot extends AdvancedRobot{
     double bulletPower = 1;
     boolean RamIt = false;
     double rand = 8;
-    int timeToStop = 100;
+    int timeToStop = 65;
 
     public void run() {
         setAdjustRadarForRobotTurn(true);
