@@ -127,16 +127,5 @@ public class Calculon extends AdvancedRobot{
         out.println("Accuracy:" + (hitEnemybyBullet/ shotBullet));
 
     }
-    public void onDeath(DeathEvent event) {
-        out.print("__________on Death ________");
-        out.println("Shots:" + shotBullet);
-        out.println("Hits:" + hitEnemybyBullet);
-        out.println("Misses:" + missedBullet);
-        out.println("Hit by Enemy:" + gothitbyBullet);
-        out.println("Accuracy:" + (hitEnemybyBullet/ shotBullet));
-
-
-    }
-
 
 }
