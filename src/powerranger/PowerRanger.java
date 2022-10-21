@@ -103,11 +103,15 @@ public class PowerRanger extends AdvancedRobot {
         }
     }
 
-    public void onBulletHit(BulletHitEvent e) {
-
+    public void onRobotDeath(RobotDeathEvent e) {
+        // if the enemy we were tracking died...
+        if (e.getName().equals(currentTarget.getName())) {
+            // clear tracking-info, so we can track another robot
+            currentTarget.reset();
+        }
     }
 
-    public void onRobotDeath(RobotDeathEvent event) {
+    public void onBulletHit(BulletHitEvent e) {
 
     }
 
