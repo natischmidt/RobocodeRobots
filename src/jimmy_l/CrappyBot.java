@@ -1,15 +1,13 @@
 package jimmy_l;
 
 import robocode.*;
-import robocode.*;
 import java.awt.*;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
-import java.util.stream.Stream;
-import java.awt.*;
+
+
+
 import static java.lang.Math.PI;
 
-public class CrappyBot {
+public class CrappyBot extends AdvancedRobot{
 
     boolean movingForward;
     public static double _oppEnergy = 100.0;
