@@ -131,8 +131,8 @@ public class PowerRanger extends AdvancedRobot {
     }
 
     private void Stats() {
-        out.print("________________Round ended____________________");
-                        out.println("Shots:" + shotBullet);
+        out.print("________________Round ended_________________________");
+                        out.println("\nShots:" + shotBullet);
                         out.println("Hits:" + hitEnemybyBullet);
                         out.println("Misses:" + missedBullet);
                         out.println("Accuracy:" + (hitEnemybyBullet / shotBullet));
