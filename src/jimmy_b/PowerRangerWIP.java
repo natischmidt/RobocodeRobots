@@ -5,7 +5,6 @@ import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
 import java.awt.*;
 
-
 public class PowerRangerWIP extends AdvancedRobot {
     private EnemyBot currentTarget = new EnemyBot();
     int dir = 1;
@@ -44,7 +43,7 @@ public class PowerRangerWIP extends AdvancedRobot {
         double latVel = scannedRobot.getVelocity() * Math.sin(scannedRobot.getHeadingRadians() - absBearing);
         double radarTurn = absBearing - getRadarHeadingRadians();
 
-        // Saktar ner lite då och då.
+/*        // Saktar ner lite då och då.
         if (timeToStop < 1) {
             rand = Math.random();
             if (rand > 0.5) {
@@ -53,7 +52,7 @@ public class PowerRangerWIP extends AdvancedRobot {
             if (rand < 0.5) {
                 setMaxVelocity(2);
             }
-        }
+        }*/
         // Beräkna firepower
         smartFire();
 

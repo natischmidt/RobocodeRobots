@@ -1,4 +1,4 @@
-package Powerranger;
+package powerranger;
 
 import robocode.ScannedRobotEvent;
 
