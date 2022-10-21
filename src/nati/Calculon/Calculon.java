@@ -104,6 +104,7 @@ public class Calculon extends AdvancedRobot{
         double linearBearing = headOnBearing + Math.asin(e.getVelocity() / Rules.getBulletSpeed(bulletPower) * Math.sin(e.getHeadingRadians() - headOnBearing));
         setTurnGunRightRadians(Utils.normalRelativeAngle(linearBearing - getGunHeadingRadians()));
         setFire(bulletPower);
+        shotBullet++;
 
     }
 

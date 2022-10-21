@@ -11,6 +11,10 @@ import java.awt.*;
 
 public class PowerRanger extends AdvancedRobot {
     private EnemyBot currentTarget = new EnemyBot();
+    double shotBullet = 0;
+    double hitEnemybyBullet = 0;
+    double gothitbyBullet = 0;
+    double missedBullet = 0;
     int dir = 1;
     double bulletPower = 1;
     double rand = 8;
@@ -44,6 +48,12 @@ public class PowerRanger extends AdvancedRobot {
         }
     }
 
+    public void onHitbyBullet(BulletHitEvent e) {
+        gothitbyBullet++;
+    }
+    public void onBulletMissed(BulletMissedEvent event) {
+        missedBullet++;
+    }
 
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
         trackEnemy(scannedRobot);
@@ -84,7 +94,9 @@ public class PowerRanger extends AdvancedRobot {
                 bulletPower = (Math.min(Math.min(500 / currentTarget.getDistance(), 3),
                         // skjut med minsta möjliga kraft för att döda
                         (currentTarget.getEnergy() / 4)));
+
             setFire(bulletPower);
+            shotBullet++;
         }
     }
 
@@ -112,7 +124,7 @@ public class PowerRanger extends AdvancedRobot {
     }
 
     public void onBulletHit(BulletHitEvent e) {
-
+        hitEnemybyBullet++;
     }
 
     private void Stats() {
