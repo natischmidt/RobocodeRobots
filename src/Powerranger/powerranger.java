@@ -1,14 +1,13 @@
 package Powerranger;
 
-import jimmy_b.EnemyBot;
 import robocode.AdvancedRobot;
 import robocode.BulletHitEvent;
 import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
 import robocode.*;
 import robocode.util.*;
-
 import java.awt.*;
+import java.util.Objects;
 
 
 public class powerranger extends AdvancedRobot {
@@ -19,44 +18,36 @@ public class powerranger extends AdvancedRobot {
     double rand = 8;
     int timeToStop = 65;
 
-    public void run() {
-        setAdjustRadarForRobotTurn(true);
-        setAdjustRadarForGunTurn(true);
-        setBodyColor(Color.black);
-        setGunColor(Color.red);
-        setRadarColor(Color.orange);
-        setBulletColor(Color.black);
-        setScanColor(Color.cyan);
+        public void run() {
+            setAdjustRadarForRobotTurn(true);
+            setAdjustRadarForGunTurn(true);
+            setBodyColor(Color.black);
+            setGunColor(Color.red);
+            setRadarColor(Color.orange);
+            setBulletColor(Color.black);
+            setScanColor(Color.cyan);
 
 
-        //Vänder mig åt rätt håll.
-        turnLeft(getHeading() % 90);
+            //Vänder mig åt rätt håll.
+            turnLeft(getHeading() % 90);
 
-        while (true) {
+            while (true) {
+                //Scanna igen om det behövs
+                setTurnRadarRight(Double.POSITIVE_INFINITY);
+                System.out.println("Scanna igen!!");
+                //Räknar ut hur jag ska åka längst väggarna
 
-            //Scanna igen om det behövs
-            setTurnRadarRight(Double.POSITIVE_INFINITY);
-            System.out.println("Scanna igen!!");
-            //Räknar ut hur jag ska åka längst väggarna
 
+                if (Utils.isNear(getHeadingRadians(), 0D) || Utils.isNear(getHeadingRadians(), Math.PI)) {
+                    ahead((Math.max(getBattleFieldHeight() - getY(), getY()) - 28) * dir);
+                } else {
+                    ahead((Math.max(getBattleFieldWidth() - getX(), getX()) - 28) * dir);
+                }
+                turnRight(90 * dir);
 
-            if (Utils.isNear(getHeadingRadians(), 0D) || Utils.isNear(getHeadingRadians(), Math.PI)) {
-                ahead((Math.max(getBattleFieldHeight() - getY(), getY()) - 28) * dir);
-            } else {
-                ahead((Math.max(getBattleFieldWidth() - getX(), getX()) - 28) * dir);
+                }
             }
-            turnRight(90 * dir);
 
-//                public void onCustomEvent(CustomEvent e) {
-//
-//                 if (onRoundEnded()){
-//                 Stats();
-//
-//                }
-
-
-        }
-    }
 
 
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
@@ -118,6 +109,26 @@ public class powerranger extends AdvancedRobot {
     }
     public void onBulletHit(BulletHitEvent e) {
 
-    }
-}
+                    }
+
+                    public void onRobotDeath(RobotDeathEvent event) {
+
+                    }
+
+                    private void Stats() {
+                        out.print("_______Round ended________");
+//                        out.println("Shots:" + shotBullet);
+//                        out.println("Hits:" + hitEnemybyBullet);
+//                        out.println("Misses:" + missedBullet);
+//                        out.println("Hit by Enemy:" + gothitbyBullet);
+//                        out.println("Accuracy:" + (hitEnemybyBullet / shotBullet));
+                    }
+
+
+                }
+
+
+
+
+
 
