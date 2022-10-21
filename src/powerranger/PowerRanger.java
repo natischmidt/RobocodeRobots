@@ -48,9 +48,7 @@ public class PowerRanger extends AdvancedRobot {
         }
     }
 
-    public void onHitbyBullet(BulletHitEvent e) {
-        gothitbyBullet++;
-    }
+
     public void onBulletMissed(BulletMissedEvent event) {
         missedBullet++;
     }
