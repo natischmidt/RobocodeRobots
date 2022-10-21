@@ -45,20 +45,8 @@ public class powerranger extends AdvancedRobot {
                 }
                 turnRight(90 * dir);
 
-                addCustomEvent(new Condition("YaDead") {
-                    @Override
-                    public boolean test() {
-                        return (!Objects.equals(getName(), " "));
-                    }
-
-                    public void onCustomEvent(CustomEvent e) {
-
-                        if (e.getCondition().getName().equals("YaDead")) {
-                            Stats();
-                        }
-                    }
-
-
+                }
+            }
 
 
 
@@ -116,7 +104,7 @@ public class powerranger extends AdvancedRobot {
 
 
                 }
-            }
+
 
 
 
