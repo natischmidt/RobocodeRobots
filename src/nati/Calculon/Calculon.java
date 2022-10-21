@@ -43,7 +43,7 @@ public class Calculon extends AdvancedRobot{
 //            execute();
 //        } while(true);
 //    }
-//
+//  custom event till powerranger with stats on eevery round end
 //    public void onCustomEvent(CustomEvent e) {
 //        double bulletPower = 3;
 //        if (e.getCondition().getName().equals("CooledGun")){
@@ -118,6 +118,7 @@ public class Calculon extends AdvancedRobot{
         missedBullet++;
     }
 
+    // for custom event
     public void onRoundEnded(RoundEndedEvent event) {
         out.print("_______Round ended________");
         out.println("Shots:" + shotBullet);
