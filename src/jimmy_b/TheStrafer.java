@@ -1,7 +1,6 @@
 package jimmy_b;
 
 import robocode.*;
-
 import java.awt.*;
 
 public class TheStrafer extends AdvancedRobot {
@@ -27,8 +26,10 @@ public class TheStrafer extends AdvancedRobot {
         }
     }
     private void scanForNewTarget() {
+        // If we have no target, or we're stuck
         if (currentTarget.none() || getVelocity() == 0)
             setTurnRadarRight(360);
+        // Forget the target if the target is getting too far away
         if (getOthers() > 1 && currentTarget.getDistance() > 700)
             currentTarget.reset();
     }
@@ -44,8 +45,6 @@ public class TheStrafer extends AdvancedRobot {
             // They see me strafin', they hatin'...
             strafeEnemy();
         }
-        if (getTime() % 30 == 0)
-            moveDirection *= -1;
     }
 
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
@@ -100,6 +99,7 @@ public class TheStrafer extends AdvancedRobot {
         setAllColors(Color.red);
         setTurnRight(currentTarget.getBearing());
         setAhead(currentTarget.getDistance() + 5);
+        setTurnRadarRight(360);
         execute();
     }
 
@@ -116,6 +116,8 @@ public class TheStrafer extends AdvancedRobot {
         // Strafe...
         setTurnRight(currentTarget.getBearing() + 90);
         setAhead(100 * moveDirection);
+        if (getTime() % 30 == 0)
+            moveDirection *= -1;
     }
 
     public void onRobotDeath(RobotDeathEvent e) {
