@@ -54,6 +54,9 @@ public class PowerRanger extends AdvancedRobot {
     public void onBulletMissed(BulletMissedEvent event) {
         missedBullet++;
     }
+    public void onRoundEnded(RoundEndedEvent event) {
+        Stats();
+    }
 
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
         trackEnemy(scannedRobot);
@@ -128,12 +131,12 @@ public class PowerRanger extends AdvancedRobot {
     }
 
     private void Stats() {
-        out.print("_______Round ended________");
-//                        out.println("Shots:" + shotBullet);
-//                        out.println("Hits:" + hitEnemybyBullet);
-//                        out.println("Misses:" + missedBullet);
-//                        out.println("Hit by Enemy:" + gothitbyBullet);
-//                        out.println("Accuracy:" + (hitEnemybyBullet / shotBullet));
+        out.print("________________Round ended____________________");
+                        out.println("Shots:" + shotBullet);
+                        out.println("Hits:" + hitEnemybyBullet);
+                        out.println("Misses:" + missedBullet);
+                        out.println("Hit by Enemy:" + gothitbyBullet);
+                        out.println("Accuracy:" + (hitEnemybyBullet / shotBullet));
     }
 
 
