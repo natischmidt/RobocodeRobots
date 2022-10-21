@@ -7,6 +7,7 @@ import robocode.util.Utils;
 import robocode.*;
 import robocode.util.*;
 import java.awt.*;
+import java.util.Objects;
 
 
 public class powerranger extends AdvancedRobot {
@@ -27,12 +28,10 @@ public class powerranger extends AdvancedRobot {
             setScanColor(Color.cyan);
 
 
-
             //Vänder mig åt rätt håll.
             turnLeft(getHeading() % 90);
 
             while (true) {
-
                 //Scanna igen om det behövs
                 setTurnRadarRight(Double.POSITIVE_INFINITY);
                 System.out.println("Scanna igen!!");
@@ -46,55 +45,80 @@ public class powerranger extends AdvancedRobot {
                 }
                 turnRight(90 * dir);
 
-//                public void onCustomEvent(CustomEvent e) {
-//
-//                 if (onRoundEnded()){
-//                 Stats();
-//
-//                }
+                addCustomEvent(new Condition("YaDead") {
+                    @Override
+                    public boolean test() {
+                        return (!Objects.equals(getName(), " "));
+                    }
+
+                    public void onCustomEvent(CustomEvent e) {
+
+                        if (e.getCondition().getName().equals("YaDead")) {
+                            Stats();
+                        }
+                    }
 
 
-            }
-        }
 
 
-        public void onScannedRobot(ScannedRobotEvent e) {
-            //data för att kunna sikta på fienden
-            double absBearing = e.getBearingRadians() + getHeadingRadians();
-            double latVel = e.getVelocity() * Math.sin(e.getHeadingRadians() - absBearing);
-            double radarTurn = absBearing - getRadarHeadingRadians();
 
-            //Saktar ner lite då och då.
-            if(timeToStop <1){
-                rand = Math.random();
-                if(rand > 0.5){
-                    setMaxVelocity(12);
+                    public void onScannedRobot(ScannedRobotEvent e) {
+                        //data för att kunna sikta på fienden
+                        double absBearing = e.getBearingRadians() + getHeadingRadians();
+                        double latVel = e.getVelocity() * Math.sin(e.getHeadingRadians() - absBearing);
+                        double radarTurn = absBearing - getRadarHeadingRadians();
+
+                        //Saktar ner lite då och då.
+                        if (timeToStop < 1) {
+                            rand = Math.random();
+                            if (rand > 0.5) {
+                                setMaxVelocity(12);
+                            }
+                            if (rand < 0.5) {
+                                setMaxVelocity(2);
+                            }
+                        }
+
+
+                        if (e.getDistance() > 200) {
+                            bulletPower = 1;
+                        }
+                        if (e.getDistance() < 200) {
+                            bulletPower = 2;
+                        }
+                        if (e.getDistance() < 100) {
+                            bulletPower = 3;
+                        }
+
+                        setTurnGunRightRadians(Utils.normalRelativeAngle(absBearing - getGunHeadingRadians() + Math.asin(latVel / (20 - 3 * bulletPower)))); //Siktar på busarna
+                        setFire(bulletPower); //Skjuter!
+                        setTurnRadarRightRadians(Utils.normalRelativeAngle(radarTurn) * 2); // Hålla kvar radarn
+
+                    }
+
+
+                    public void onBulletHit(BulletHitEvent e) {
+
+                    }
+
+                    public void onRobotDeath(RobotDeathEvent event) {
+
+                    }
+
+                    private void Stats() {
+                        out.print("_______Round ended________");
+//                        out.println("Shots:" + shotBullet);
+//                        out.println("Hits:" + hitEnemybyBullet);
+//                        out.println("Misses:" + missedBullet);
+//                        out.println("Hit by Enemy:" + gothitbyBullet);
+//                        out.println("Accuracy:" + (hitEnemybyBullet / shotBullet));
+                    }
+
+
                 }
-                if(rand < 0.5){
-                    setMaxVelocity(2);
-                }
             }
 
 
 
-            if(e.getDistance() > 200){
-                bulletPower = 1;
-            }
-            if(e.getDistance() < 200){
-                bulletPower = 2;
-            }
-            if(e.getDistance() < 100){
-                bulletPower = 3;
-            }
 
-            setTurnGunRightRadians(Utils.normalRelativeAngle(absBearing - getGunHeadingRadians() + Math.asin(latVel / (20 - 3 * bulletPower)))); //Siktar på busarna
-            setFire(bulletPower); //Skjuter!
-            setTurnRadarRightRadians(Utils.normalRelativeAngle(radarTurn) * 2); // Hålla kvar radarn
-
-        }
-
-        public void onBulletHit(BulletHitEvent e) {
-
-        }
-    }
 
