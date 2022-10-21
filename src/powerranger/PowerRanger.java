@@ -21,14 +21,8 @@ public class PowerRanger extends AdvancedRobot {
     int timeToStop = 65;
 
     public void run() {
-        setAdjustRadarForRobotTurn(true);
-        setAdjustRadarForGunTurn(true);
-        setBodyColor(Color.black);
-        setGunColor(Color.red);
-        setRadarColor(Color.orange);
-        setBulletColor(Color.black);
-        setScanColor(Color.cyan);
 
+        initialize();
         // Vänder roboten mot väggen
         turnLeft(getHeading() % 90);
 
@@ -37,15 +31,33 @@ public class PowerRanger extends AdvancedRobot {
             setTurnRadarRight(Double.POSITIVE_INFINITY);
             System.out.println("Scanna igen!!");
 
-            //Räknar ut hur jag ska åka längst väggarna
-            if (Utils.isNear(getHeadingRadians(), 0D) || Utils.isNear(getHeadingRadians(), Math.PI)) {
-                ahead((Math.max(getBattleFieldHeight() - getY(), getY()) - 28) * dir);
-            } else {
-                ahead((Math.max(getBattleFieldWidth() - getX(), getX()) - 28) * dir);
-            }
-            turnRight(90 * dir);
+            WallMovement();
 
         }
+    }
+
+    public void initialize() {
+        // Let the robot body, gun, and radar turn independently of each other
+        setAdjustRadarForGunTurn(true);
+        setAdjustGunForRobotTurn(true);
+
+        // Set robot colors
+        setBodyColor(new Color(23,23,23));
+        setGunColor(new Color(255,8,0));
+        setRadarColor(new Color(253,88,0));
+        setBulletColor(new Color(23,23,23));
+        setScanColor(new Color(0,255,255));
+
+    }
+
+    public void WallMovement(){
+        //Räknar ut hur jag ska åka längst väggarna
+        if (Utils.isNear(getHeadingRadians(), 0D) || Utils.isNear(getHeadingRadians(), Math.PI)) {
+            ahead((Math.max(getBattleFieldHeight() - getY(), getY()) - 28) * dir);
+        } else {
+            ahead((Math.max(getBattleFieldWidth() - getX(), getX()) - 28) * dir);
+        }
+        turnRight(90 * dir);
     }
 
 
