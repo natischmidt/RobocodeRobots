@@ -119,7 +119,6 @@ public class TheWallStrafer extends AdvancedRobot {
             currentTarget.update(scannedRobot);
         }
     }
-    //powerranger
     private void smartFire() {
         // The gun isn't overheated or too far away from the target
         if (getGunHeat() == 0 && Math.abs(getGunTurnRemaining()) < 20) {
@@ -133,7 +132,6 @@ public class TheWallStrafer extends AdvancedRobot {
                         (currentTarget.getEnergy() / 4)));
         }
     }
-    //powerranger
 
     public void onBulletMissed(BulletMissedEvent e) {
         if (getOthers() == 1)
