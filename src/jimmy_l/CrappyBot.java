@@ -1,5 +1,6 @@
 package jimmy_l;
 
+import jimmy_b.EnemyBot;
 import robocode.*;
 import java.awt.*;
 
@@ -8,6 +9,7 @@ import java.awt.*;
 import static java.lang.Math.PI;
 
 public class CrappyBot extends AdvancedRobot{
+    private EnemyBot currentTarget = new EnemyBot();
 
     boolean movingForward;
     public static double _oppEnergy = 100.0;
@@ -20,6 +22,11 @@ public class CrappyBot extends AdvancedRobot{
 
         setColor();
 
+        addCustomEvent(new Condition("energyBuddies") {
+            public boolean test() {
+                return (currentTarget.getEnergy() == getEnergy());
+            }
+        });
 
         while (true) {
             setAdjustGunForRobotTurn(true);
@@ -79,7 +86,7 @@ public class CrappyBot extends AdvancedRobot{
 //
 //            addCustomEvent(new EnergyBuddies(rbt, e.getName(), getEnergy(), e.getEnergy()));
 //        }
-        energyBuddies(e.getEnergy(), e.getName());
+//        energyBuddies(e.getEnergy(), e.getName());
 
         setTurnRadarRight(100000);
         turnGunRightRadians(aimAtBearing(e.getBearingRadians()));
@@ -90,13 +97,11 @@ public class CrappyBot extends AdvancedRobot{
     }
 
 
-//    public void onCustomEvent(CustomEvent event) {
-//        Condition condition = event.getCondition();
-//
-//        if (condition instanceof EnergyBuddies) {
-//            System.out.println("We both have " + getEnergy() + " energy, " +  + " we are energybuddies!! :D");
-//        }
-//    }
+    public void onCustomEvent(CustomEvent e) {
+
+        if (e.getCondition().getName().equals("energyBuddies")) {
+            energyBuddies(getEnergy(), currentTarget.getName());        }
+    }
 
 
 
@@ -176,7 +181,7 @@ public class CrappyBot extends AdvancedRobot{
         return takeAim;
     }
 
-    public void setColor () {
+    public void setColor() {
         // Set colors
         setBodyColor(new Color(0, 0, 100));
         setGunColor(new Color(0, 0, 0));
