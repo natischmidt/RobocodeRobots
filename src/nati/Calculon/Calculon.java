@@ -6,7 +6,6 @@ import java.awt.*;
 public class Calculon extends AdvancedRobot{
     double moveAmount;
     boolean peek;
-    // stats :
     double shotBullet = 0;
     double hitEnemybyBullet = 0;
     double gothitbyBullet = 0;
@@ -20,45 +19,19 @@ public class Calculon extends AdvancedRobot{
             Radar();
             Movement();
             scan();
-            execute();
-
-//            addCustomEvent(new Condition("CooledGun") {
-//                @Override
-//                public boolean test() {
-//                    return (getGunHeat() == 0);
-//                }
         }
     }
 
-//        do{
-//            //similar to turnmultiplierlock but with a wider scanning ability
-//            //Turn the radar if thre are no more turns,
-//            // starts if it stops and at the start of a round
-//            //
-//            if (getRadarTurnRemaining() == 0.0) {
-//                setTurnRadarRightRadians(Double.POSITIVE_INFINITY);
-//            }
-//            execute();
-//            Movement();
-//            execute();
-//        } while(true);
-//    }
-//  custom event till powerranger with stats on eevery round end
-//    public void onCustomEvent(CustomEvent e) {
-//        double bulletPower = 3;
-//        if (e.getCondition().getName().equals("CooledGun")){
-//              setFire(bulletPower);
-//            shotBullet++;
-//        }
-//    }
-
 
     public void initialize() {
-        // Let the robot body, gun, and radar turn independently of each other
+        /*Här sätts både gun och radar till true, så att båda kan röra sig utan att vara bunden till det andra,
+        det vill säga om det hade varit false rör sig båda tillsammans, sätta dessa på true underlättar
+        träffsökerheten och rörelsemänster*/
         setAdjustRadarForGunTurn(true);
         setAdjustGunForRobotTurn(true);
+        execute();
 
-        // Set robot colors
+        // Med hjälp av RGB sätts färgerna till guld
         setBodyColor(new Color(218,165,32));
         setGunColor(new Color(218,165,32));
         setRadarColor(new Color(218,165,32));
@@ -67,6 +40,8 @@ public class Calculon extends AdvancedRobot{
 
     }
     public void Radar() {
+        /* Infinity lock vilket innebär att det scannas efter fienden , och sedan scannas det bara av igen ifall
+        vi har tappat bort fienden*/
         if (getRadarTurnRemaining() == 0.0) {
             setTurnRadarRightRadians(Double.POSITIVE_INFINITY);
         }
@@ -75,6 +50,7 @@ public class Calculon extends AdvancedRobot{
 
 
     public void Movement(){
+        // Här bestämms rörelsemönstret, längst väggen motsols
         this.moveAmount = Math.max(this.getBattleFieldWidth(), this.getBattleFieldHeight());
         this.peek = false;
         this.turnLeft(this.getHeading() % 90.0);
@@ -89,18 +65,19 @@ public class Calculon extends AdvancedRobot{
     }
     public void onScannedRobot(ScannedRobotEvent e) {
 
-        //absolute angle towards the enemy
+        //Graderna mot fienden
         double angletoEnemy= getHeadingRadians() + e.getBearingRadians();
-        // minus current radar heading to turn requierd so we face the enemy making sure it normalized
+        // detta minus nuvarande grader av radar heading som behövs för att vända, och normalize detta
         double radarTurn= Utils.normalRelativeAngle(angletoEnemy - getRadarHeadingRadians());
-        //36.0 is the units from the center of the enemy we scan
+        //36.0 är mitten av fienden som scannas
         double extraturn = Math.min(Math.atan(36.0 / e.getDistance()) , Rules.RADAR_TURN_RATE_RADIANS);
         radarTurn += (radarTurn < 0 ? -extraturn : extraturn);
-        // if its left turn more left, if its right turn more right giving a good and wide  sweep
+        // är det då vänster vänder vi oss mer till vänster och likadant med häger vilket ger ett stor scanning område
         setTurnRadarRightRadians(radarTurn);
-//Testing shooting
+
         double headOnBearing = getHeadingRadians() + e.getBearingRadians();
         double bulletPower = 2;
+        //Linear aiming, vilket innebär att det räknas ut vart fienden är på vög och det ör dör skottet åker
         double linearBearing = headOnBearing + Math.asin(e.getVelocity() / Rules.getBulletSpeed(bulletPower) * Math.sin(e.getHeadingRadians() - headOnBearing));
         setTurnGunRightRadians(Utils.normalRelativeAngle(linearBearing - getGunHeadingRadians()));
         setFire(bulletPower);
@@ -119,7 +96,6 @@ public class Calculon extends AdvancedRobot{
         missedBullet++;
     }
 
-    // for custom event
     public void onRoundEnded(RoundEndedEvent event) {
         out.print("_______Round ended________");
         out.println("Shots:" + shotBullet);
