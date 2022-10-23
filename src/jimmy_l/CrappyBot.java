@@ -3,7 +3,7 @@ package jimmy_l;
 import jimmy_b.EnemyBot;
 import robocode.*;
 import java.awt.*;
-
+import java.util.Random;
 
 
 import static java.lang.Math.PI;
@@ -15,12 +15,14 @@ public class CrappyBot extends AdvancedRobot{
     public static double _oppEnergy = 100.0;
     public double takeAim;
     public double cornerEscapeMultiplier;
-    //EnergyBuddies energyBuddies;
+    int colorTimer = 0;
+    boolean haveAlreadyGotAnEnergyBuddy = false;
+
     AdvancedRobot rbt = new AdvancedRobot();
 
     public void run() {
 
-        setColor();
+        //setColor();
 
         addCustomEvent(new Condition("energyBuddies") {
             public boolean test() {
@@ -32,7 +34,10 @@ public class CrappyBot extends AdvancedRobot{
             setAdjustGunForRobotTurn(true);
             setAdjustRadarForGunTurn(true);
             setAdjustRadarForRobotTurn(true);
-
+            colorTimer += 1;
+            if (getTime() % 2 == 0) {
+                    setColor();
+                }
             setTurnRadarRight(100000);
             // Tell the game we will want to move ahead 40000 -- some large number
             setAhead(2000);
@@ -40,24 +45,14 @@ public class CrappyBot extends AdvancedRobot{
             movingForward = true;
             // Tell the game we will want to turn right 90
             setTurnRight(180);
-            // At this point, we have indicated to the game that *when we do something*,
-            // we will want to move ahead and turn right.  That's what "set" means.
-            // It is important to realize we have not done anything yet!
-            // In order to actually move, we'll want to call a method that
-            // takes real time, such as waitFor.
-            // waitFor actually starts the action -- we start moving and turning.
-            // It will not return until we have finished turning.
+
             waitFor(new TurnCompleteCondition(this));
-            // Note:  We are still moving ahead now, but the turn is complete.
-            // Now we'll turn the other way...
+
             ///////////////////////////////setTurnLeft(180);
-            // ... and wait for the turn to finish ...
             ///////////////////////////////waitFor(new TurnCompleteCondition(this));
-            // ... then the other way ...
             ////////////////////////////setTurnRight(180);
-            // .. and wait for that turn to finish.
             ////////////////////////////waitFor(new TurnCompleteCondition(this));
-            // then back to the top to do it all again
+
 
         }
     }
@@ -79,14 +74,22 @@ public class CrappyBot extends AdvancedRobot{
         }
     }
 
-
+    private void trackEnemy(ScannedRobotEvent scannedRobot) {
+        if (// Om vi saknar en target, eller...
+                currentTarget.none() ||
+                        // roboten som vi precis skannat befinner sig närmre oss, eller...
+                        scannedRobot.getDistance() < currentTarget.getDistance() ||
+                        // roboten som vi skannat har mindre energi kvar än vår target, eller...
+                        scannedRobot.getEnergy() < currentTarget.getEnergy() ||
+                        // vi skannade av den robot som vi redan trackar
+                        scannedRobot.getName().equals(currentTarget.getName())
+        ) {
+            // uppdatera måltavlan!
+            currentTarget.update(scannedRobot);
+        }
+    }
     public void onScannedRobot(ScannedRobotEvent e) {
-
-//        if (getEnergy() < 100 && e.getEnergy() == getEnergy()) {
-//
-//            addCustomEvent(new EnergyBuddies(rbt, e.getName(), getEnergy(), e.getEnergy()));
-//        }
-//        energyBuddies(e.getEnergy(), e.getName());
+        trackEnemy(e);
 
         setTurnRadarRight(100000);
         turnGunRightRadians(aimAtBearing(e.getBearingRadians()));
@@ -100,7 +103,13 @@ public class CrappyBot extends AdvancedRobot{
     public void onCustomEvent(CustomEvent e) {
 
         if (e.getCondition().getName().equals("energyBuddies")) {
-            energyBuddies(getEnergy(), currentTarget.getName());        }
+
+            while (!haveAlreadyGotAnEnergyBuddy) {
+                energyBuddies(getEnergy(), currentTarget.getName());
+                haveAlreadyGotAnEnergyBuddy = true;
+        }
+
+        }
     }
 
 
@@ -183,11 +192,19 @@ public class CrappyBot extends AdvancedRobot{
 
     public void setColor() {
         // Set colors
-        setBodyColor(new Color(0, 0, 100));
-        setGunColor(new Color(0, 0, 0));
-        setRadarColor(new Color(0, 0, 0));
-        setBulletColor(new Color(255, 0, 0));
-        setScanColor(new Color(255, 255, 255));
+        setBodyColor(getRndColor());
+        setGunColor(getRndColor());
+        setRadarColor(getRndColor());
+        setBulletColor(getRndColor());
+        setScanColor(getRndColor());
+    }
+    public Color getRndColor() {													//returnerar randomiserade värden 0-255
+        Random random = new Random();
+        int red = random.nextInt(255);
+        int green = random.nextInt(255);
+        int blue = random.nextInt(255);
+
+        return new Color(red, green, blue);
     }
 
     public void onWin(WinEvent e) {													//vid vinst: skjut som en galning
@@ -202,15 +219,16 @@ public class CrappyBot extends AdvancedRobot{
         System.out.println("                                |");
         System.out.println("                            .-'~~~`-.");
         System.out.println("                          .'         `.");
-        System.out.println("                          |  R  I  P  |");
+        System.out.println("      ***                 |  R  I  P  |");
         System.out.println("                          | CrappyBot |");
         System.out.println("                          |           |");
         System.out.println("                        \\\\|           |//");
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
     }
     public void energyBuddies (double energy, String name) {
-        if (energy == getEnergy() && getEnergy() != 100) {
-            System.out.println("We both have " + getEnergy() + " energy, " + name + ", we are energy buddies!");
+
+        if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {
+            System.out.println("We both have " + (int)getEnergy() + " energy, " + currentTarget.getName() + ", we are energy buddies!");
             System.out.println("   ***     ***                   ***     ***                   ***     ***");
             System.out.println(" **   ** **   **               **   ** **   **               **   ** **   **");
             System.out.println("*       *       *             *       *       *             *       *       *");
@@ -235,8 +253,6 @@ public class CrappyBot extends AdvancedRobot{
             System.out.println("                   **     **                     **     **");
             System.out.println("                     ** **                         ** **");
             System.out.println("                       *                             *");
-
-
 
 
         }
