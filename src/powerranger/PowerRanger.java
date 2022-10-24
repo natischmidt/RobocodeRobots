@@ -39,7 +39,7 @@ public class PowerRanger extends AdvancedRobot {
             System.out.println("Scanna igen!!");
 
             WallMovement();
-
+            DodgeMovment();
         }
     }
 
@@ -67,6 +67,21 @@ public class PowerRanger extends AdvancedRobot {
         }
         turnRight(90 * dir);
     }
+    public void DodgeMovment(){
+        //Ändrar hur den åker
+        timeToStop--;
+        if (timeToStop < 1) {
+            rand = Math.random();
+            if (rand > 0.5) {
+                dir = 1;
+                timeToStop = 45;
+            }
+            if (rand < 0.5) {
+                dir = -1;
+                timeToStop = 5;
+            }
+        }
+    }
 
 
     public void onBulletMissed(BulletMissedEvent event) {
@@ -84,16 +99,6 @@ public class PowerRanger extends AdvancedRobot {
         double latVel = scannedRobot.getVelocity() * Math.sin(scannedRobot.getHeadingRadians() - absBearing);
         double radarTurn = absBearing - getRadarHeadingRadians();
 
-        //Saktar ner lite då och då.
-        if (timeToStop < 1) {
-            rand = Math.random();
-            if (rand > 0.5) {
-                setMaxVelocity(12);
-            }
-            if (rand < 0.5) {
-                setMaxVelocity(2);
-            }
-        }
         // Beräkna firepower
         smartFire();
 
