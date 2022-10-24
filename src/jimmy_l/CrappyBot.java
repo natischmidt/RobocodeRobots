@@ -205,14 +205,38 @@ public class CrappyBot extends AdvancedRobot{
         return takeAim;
     }
 
+//    public void setColor() {
+//        // Set colors
+//        setBodyColor(getRndColor());
+//        setGunColor(getRndColor());
+//        setRadarColor(getRndColor());
+//        setBulletColor(getRndColor());
+//        setScanColor(getRndColor());
+//    }
     public void setColor() {
         // Set colors
-        setBodyColor(getRndColor());
-        setGunColor(getRndColor());
-        setRadarColor(getRndColor());
-        setBulletColor(getRndColor());
-        setScanColor(getRndColor());
+        setBodyColor(getCrazyColor());
+        setGunColor(getCrazyColor());
+        setRadarColor(getCrazyColor());
+        setBulletColor(getCrazyColor());
+        setScanColor(getCrazyColor());
     }
+
+    public Color getCrazyColor() {
+        int red;
+        int green;
+        int blue;
+        for (int i = 0; i <= 255; i++) {
+            red = i;
+            green = i + 80;
+            blue = i + 160;
+        }
+
+
+
+        return new Color(red, green, blue);
+    }
+
     public Color getRndColor() {													//returnerar randomiserade värden 0-255
         Random random = new Random();
         int red = random.nextInt(255);
