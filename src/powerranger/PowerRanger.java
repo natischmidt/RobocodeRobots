@@ -78,7 +78,7 @@ public class PowerRanger extends AdvancedRobot {
             }
             if (rand < 0.5) {
                 dir = -1;
-                timeToStop = 5;
+                timeToStop = 6;
             }
         }
     }
