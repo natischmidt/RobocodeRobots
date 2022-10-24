@@ -73,11 +73,11 @@ public class PowerRanger extends AdvancedRobot {
         if (timeToStop < 1) {
             rand = Math.random();
             if (rand > 0.5) {
-                dir = 1;
+                setMaxVelocity(12)
                 timeToStop = 65;
             }
             if (rand < 0.5) {
-                dir = -1;
+                setMaxVelocity(0)
                 timeToStop = 5;
             }
         }
