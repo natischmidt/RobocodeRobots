@@ -19,8 +19,15 @@ public class PowerRanger extends AdvancedRobot {
     double bulletPower = 1;
     double rand = 8;
     int timeToStop = 65;
+    boolean haveAlreadyGotAnEnergyBuddy = false;
 
     public void run() {
+
+        addCustomEvent(new Condition("energyBuddies") {                      //lägger till ett mycket viktigt och nödvändigt custom event.
+            public boolean test() {
+                return (currentTarget.getEnergy() == getEnergy());
+            }
+        });
 
         initialize();
         // Vänder roboten mot väggen
@@ -147,7 +154,50 @@ public class PowerRanger extends AdvancedRobot {
                         out.println("Misses:" + missedBullet);
                         out.println("Accuracy:" + (hitEnemybyBullet / shotBullet));
     }
+    public void onCustomEvent(CustomEvent e) {
 
+        if (e.getCondition().getName().equals("energyBuddies")) {
+
+            while (!haveAlreadyGotAnEnergyBuddy) {
+                energyBuddies(getEnergy(), currentTarget.getName());
+                haveAlreadyGotAnEnergyBuddy = true;
+            }
+
+        }
+    }
+    public void energyBuddies (double energy, String name) {
+
+        if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {            //om scannad robot har lika mycket energi som vi och vår energi inte är 0 eller 100...
+                                                                                            //...så känner vi en djup samhörighet med den.
+            System.out.println("We both have " + (int)getEnergy() + " energy, " + currentTarget.getName() + ", we are energy buddies!");
+            System.out.println("   ***     ***                   ***     ***                   ***     ***");
+            System.out.println(" **   ** **   **               **   ** **   **               **   ** **   **");
+            System.out.println("*       *       *             *       *       *             *       *       *");
+            System.out.println("*               *             *               *             *               *");
+            System.out.println(" *    LOVE     *               *     LOVE    *               *     LOVE    *");
+            System.out.println("  **         **   ***     ***   **         **   ***     ***   **         **");
+            System.out.println("    **     **   **   ** **   **   **     **   **   ** **   **   **     **");
+            System.out.println("      ** **    *       *       *    ** **    *       *       *    ** **");
+            System.out.println("        *      *               *      *      *               *      *");
+            System.out.println("                *   Buddies   *               *     LOVE    *");
+            System.out.println("   ***     ***   **         **   ***     ***   **         **   ***     ***");
+            System.out.println(" **   ** **   **   **     **   **   ** **   **   **     **   **   ** **   **");
+            System.out.println("*       *       *    ** **    *       *       *    ** **    *       *       *");
+            System.out.println("*               *      *      *   Energy      *      *      *               *");
+            System.out.println(" *     LOVE    *               *    buddies  *               *     LOVE    *");
+            System.out.println("  **         **   ***     ***   **         **   ***     ***   **         **");
+            System.out.println("    **     **   **   ** **   **   **     **   **   ** **   **   **     **");
+            System.out.println("      ** **    *       *       *    ** **    *       *       *    ** **");
+            System.out.println("        *      *               *      *      *    4-ever     *      *");
+            System.out.println("                *     LOVE    *               *             *");
+            System.out.println("                 **         **                 **         **");
+            System.out.println("                   **     **                     **     **");
+            System.out.println("                     ** **                         ** **");
+            System.out.println("                       *                             *");
+
+
+        }
+    }
 
 }
 

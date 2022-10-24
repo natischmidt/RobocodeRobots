@@ -228,31 +228,31 @@ public class CrappyBot extends AdvancedRobot{
     public void energyBuddies (double energy, String name) {
 
         if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {
-            System.out.println("We both have " + (int)getEnergy() + " energy, " + currentTarget.getName() + ", we are energy buddies!");
-            System.out.println("   ***     ***                   ***     ***                   ***     ***");
-            System.out.println(" **   ** **   **               **   ** **   **               **   ** **   **");
-            System.out.println("*       *       *             *       *       *             *       *       *");
-            System.out.println("*               *             *               *             *               *");
-            System.out.println(" *     LOVE    *               *     LOVE    *               *     LOVE    *");
-            System.out.println("  **         **   ***     ***   **         **   ***     ***   **         **");
-            System.out.println("    **     **   **   ** **   **   **     **   **   ** **   **   **     **");
-            System.out.println("      ** **    *       *       *    ** **    *       *       *    ** **");
-            System.out.println("        *      *               *      *      *               *      *");
-            System.out.println("                *   Buddies   *               *     LOVE    *");
-            System.out.println("   ***     ***   **         **   ***     ***   **         **   ***     ***");
-            System.out.println(" **   ** **   **   **     **   **   ** **   **   **     **   **   ** **   **");
-            System.out.println("*       *       *    ** **    *       *       *    ** **    *       *       *");
-            System.out.println("*               *      *      *   Energy      *      *      *               *");
-            System.out.println(" *     LOVE    *               *    buddies  *               *     LOVE    *");
-            System.out.println("  **         **   ***     ***   **         **   ***     ***   **         **");
-            System.out.println("    **     **   **   ** **   **   **     **   **   ** **   **   **     **");
-            System.out.println("      ** **    *       *       *    ** **    *       *       *    ** **");
-            System.out.println("        *      *               *      *      *    4-ever     *      *");
-            System.out.println("                *     LOVE    *               *             *");
-            System.out.println("                 **         **                 **         **");
-            System.out.println("                   **     **                     **     **");
-            System.out.println("                     ** **                         ** **");
-            System.out.println("                       *                             *");
+//            System.out.println("We both have " + (int)getEnergy() + " energy, " + currentTarget.getName() + ", we are energy buddies!");
+//            System.out.println("   ***     ***                   ***     ***                   ***     ***");
+//            System.out.println(" **   ** **   **               **   ** **   **               **   ** **   **");
+//            System.out.println("*       *       *             *       *       *             *       *       *");
+//            System.out.println("*               *             *               *             *               *");
+//            System.out.println(" *     LOVE    *               *     LOVE    *               *     LOVE    *");
+//            System.out.println("  **         **   ***     ***   **         **   ***     ***   **         **");
+//            System.out.println("    **     **   **   ** **   **   **     **   **   ** **   **   **     **");
+//            System.out.println("      ** **    *       *       *    ** **    *       *       *    ** **");
+//            System.out.println("        *      *               *      *      *               *      *");
+//            System.out.println("                *   Buddies   *               *     LOVE    *");
+//            System.out.println("   ***     ***   **         **   ***     ***   **         **   ***     ***");
+//            System.out.println(" **   ** **   **   **     **   **   ** **   **   **     **   **   ** **   **");
+//            System.out.println("*       *       *    ** **    *       *       *    ** **    *       *       *");
+//            System.out.println("*               *      *      *   Energy      *      *      *               *");
+//            System.out.println(" *     LOVE    *               *    buddies  *               *     LOVE    *");
+//            System.out.println("  **         **   ***     ***   **         **   ***     ***   **         **");
+//            System.out.println("    **     **   **   ** **   **   **     **   **   ** **   **   **     **");
+//            System.out.println("      ** **    *       *       *    ** **    *       *       *    ** **");
+//            System.out.println("        *      *               *      *      *    4-ever     *      *");
+//            System.out.println("                *     LOVE    *               *             *");
+//            System.out.println("                 **         **                 **         **");
+//            System.out.println("                   **     **                     **     **");
+//            System.out.println("                     ** **                         ** **");
+//            System.out.println("                       *                             *");
 
 
         }
