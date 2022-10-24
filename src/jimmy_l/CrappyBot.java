@@ -15,15 +15,17 @@ public class CrappyBot extends AdvancedRobot{
     public static double _oppEnergy = 100.0;
     public double takeAim;
     public double cornerEscapeMultiplier;
-    int colorTimer = 0;
     boolean haveAlreadyGotAnEnergyBuddy = false;
+    int redCounter = 1;
+    int greenCounter = 90;
+    int blueCounter = 180;
 
     AdvancedRobot rbt = new AdvancedRobot();
 
     public void run() {
 
-        //setColor();
 
+        //setColor();
         addCustomEvent(new Condition("energyBuddies") {
             public boolean test() {
                 return (currentTarget.getEnergy() == getEnergy());
@@ -32,7 +34,7 @@ public class CrappyBot extends AdvancedRobot{
 
         addCustomEvent(new Condition("crazyColors") {
             public boolean test() {
-                return (colorTimer% 2 == 0);
+                return (true);
             }
         });
 
@@ -41,10 +43,17 @@ public class CrappyBot extends AdvancedRobot{
             setAdjustGunForRobotTurn(true);
             setAdjustRadarForGunTurn(true);
             setAdjustRadarForRobotTurn(true);
-            colorTimer += 1;
-            if (getTime() % 2 == 0) {
-                    setColor();
+
+//            if (getTime() % 2 == 0) {
+//                    setColor();
+//                }
+
+            addCustomEvent(new Condition("crazyColors") {
+                public boolean test() {
+                    return (true);
                 }
+            });
+
             setTurnRadarRight(100000);
             // Tell the game we will want to move ahead 40000 -- some large number
             setAhead(2000);
@@ -93,7 +102,6 @@ public class CrappyBot extends AdvancedRobot{
     }
     public void onScannedRobot(ScannedRobotEvent e) {
         trackEnemy(e);
-        System.out.println(getHeadingRadians());
 
         setTurnRadarRight(100000);
         turnGunRightRadians(aimAtBearing(e.getBearingRadians()));
@@ -213,27 +221,47 @@ public class CrappyBot extends AdvancedRobot{
 //        setBulletColor(getRndColor());
 //        setScanColor(getRndColor());
 //    }
-    public void setColor() {
-        // Set colors
-        setBodyColor(getCrazyColor());
-        setGunColor(getCrazyColor());
-        setRadarColor(getCrazyColor());
-        setBulletColor(getCrazyColor());
-        setScanColor(getCrazyColor());
-    }
+        public void setColor() {
+
+                setBodyColor(getCrazyColor());
+                setGunColor(getCrazyColor());
+                setRadarColor(getCrazyColor());
+                setBulletColor(getCrazyColor());
+                setScanColor(getCrazyColor());
+
+        }
 
     public Color getCrazyColor() {
         int red;
         int green;
         int blue;
-        for (int i = 0; i <= 255; i++) {
-            red = i;
-            green = i + 80;
-            blue = i + 160;
+
+        if (redCounter < 255) {
+            red = redCounter;
+            redCounter++;
+        } else {
+            redCounter = 0;
+            red = redCounter;
         }
+        System.out.println("red: " + red);
 
+        if (greenCounter < 254) {
+            green = greenCounter;
+            greenCounter = greenCounter +2;
+        } else {
+            greenCounter = 0;
+            green = greenCounter;
+        }
+        System.out.println("green: " + green);
 
-
+        if (blueCounter < 253) {
+            blue = blueCounter;
+            blueCounter = blueCounter + 3;
+        } else {
+            blueCounter = 0;
+            blue = blueCounter;
+        }
+        System.out.println("blue: " + blue);
         return new Color(red, green, blue);
     }
 
