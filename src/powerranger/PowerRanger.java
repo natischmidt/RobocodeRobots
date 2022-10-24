@@ -74,11 +74,11 @@ public class PowerRanger extends AdvancedRobot {
             rand = Math.random();
             if (rand > 0.5) {
                 dir = 1;
-                timeToStop = 45;
+                timeToStop = 65;
             }
             if (rand < 0.5) {
                 dir = -1;
-                timeToStop = 6;
+                timeToStop = 5;
             }
         }
     }
@@ -98,7 +98,8 @@ public class PowerRanger extends AdvancedRobot {
         double absBearing = scannedRobot.getBearingRadians() + getHeadingRadians();
         double latVel = scannedRobot.getVelocity() * Math.sin(scannedRobot.getHeadingRadians() - absBearing);
         double radarTurn = absBearing - getRadarHeadingRadians();
-
+        //Vill kalla den här ifrån också
+        DodgeMovment();
         // Beräkna firepower
         smartFire();
 
