@@ -90,6 +90,7 @@ public class CrappyBot extends AdvancedRobot{
     }
     public void onScannedRobot(ScannedRobotEvent e) {
         trackEnemy(e);
+        System.out.println(getHeadingRadians());
 
         setTurnRadarRight(100000);
         turnGunRightRadians(aimAtBearing(e.getBearingRadians()));
