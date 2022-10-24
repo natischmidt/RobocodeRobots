@@ -30,6 +30,13 @@ public class CrappyBot extends AdvancedRobot{
             }
         });
 
+        addCustomEvent(new Condition("crazyColors") {
+            public boolean test() {
+                return (colorTimer% 2 == 0);
+            }
+        });
+
+
         while (true) {
             setAdjustGunForRobotTurn(true);
             setAdjustRadarForGunTurn(true);
@@ -48,10 +55,6 @@ public class CrappyBot extends AdvancedRobot{
 
             waitFor(new TurnCompleteCondition(this));
 
-            ///////////////////////////////setTurnLeft(180);
-            ///////////////////////////////waitFor(new TurnCompleteCondition(this));
-            ////////////////////////////setTurnRight(180);
-            ////////////////////////////waitFor(new TurnCompleteCondition(this));
 
 
         }
@@ -111,7 +114,18 @@ public class CrappyBot extends AdvancedRobot{
         }
 
         }
+
+        if (e.getCondition().getName().equals("crazyColors")) {
+
+            setColor();
+
+            }
+
+
+
+
     }
+
 
 
 
