@@ -59,7 +59,7 @@ public class PowerRanger extends AdvancedRobot {
 
     public void WallMovement(){
         //Räknar ut hur jag ska åka längst väggarna
-        if (Utils.isNear(getHeadingRadians(), 0D) || Utils.isNear(getHeadingRadians(), Math.PI)) {
+        if (Utils.isNear(getHeadingRadians(), 0D) || Utils.isNear(getHeadingRadians(), Math.PI)) {      //Utils.isNear returnerar true om differensen mellan de tcå argumenten är mindre än 1.0E-5, dvs 0.000010
             ahead((Math.max(getBattleFieldHeight() - getY(), getY()) - 28) * dir);
         } else {
             ahead((Math.max(getBattleFieldWidth() - getX(), getX()) - 28) * dir);
