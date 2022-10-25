@@ -4,12 +4,14 @@ import robocode.util.Utils;
 import java.awt.*;
 
 public class Calculon extends AdvancedRobot{
+    private EnemyBot currentTarget = new EnemyBot();
     double moveAmount;
     boolean peek;
     double shotBullet = 0;
     double hitEnemybyBullet = 0;
     double gothitbyBullet = 0;
     double missedBullet = 0;
+    private byte moveDirection = 1;
 
 
     public void run() {
@@ -21,7 +23,6 @@ public class Calculon extends AdvancedRobot{
             scan();
         }
     }
-
 
     public void initialize() {
         /*Här sätts både gun och radar till true, så att båda kan röra sig utan att vara bunden till det andra,
@@ -48,7 +49,6 @@ public class Calculon extends AdvancedRobot{
 
     }
 
-
     public void Movement(){
         // Här bestämms rörelsemönstret, längst väggen motsols
         this.moveAmount = Math.max(this.getBattleFieldWidth(), this.getBattleFieldHeight());
@@ -64,7 +64,8 @@ public class Calculon extends AdvancedRobot{
         this.turnLeft(90.0);
     }
     public void onScannedRobot(ScannedRobotEvent e) {
-
+        trackEnemy(e);
+        if (getOthers() == 1){ strafeEnemy();}
         //Graderna mot fienden
         double angletoEnemy= getHeadingRadians() + e.getBearingRadians();
         // detta minus nuvarande grader av radar heading som behövs för att vända, och normalize detta
@@ -80,26 +81,66 @@ public class Calculon extends AdvancedRobot{
         //Linear aiming, vilket innebär att det räknas ut vart fienden är på vög och det ör dör skottet åker
         double linearBearing = headOnBearing + Math.asin(e.getVelocity() / Rules.getBulletSpeed(bulletPower) * Math.sin(e.getHeadingRadians() - headOnBearing));
         setTurnGunRightRadians(Utils.normalRelativeAngle(linearBearing - getGunHeadingRadians()));
-        setFire(bulletPower);
-        shotBullet++;
+        smartFire();
 
+    }
+    private void trackEnemy(ScannedRobotEvent scannedRobot) {
+        if (// Om vi saknar en target, eller...
+                currentTarget.none() ||
+                        // roboten som vi precis skannat befinner sig närmre oss, eller...
+                        scannedRobot.getDistance() < currentTarget.getDistance() ||
+                        // roboten som vi skannat har mindre energi kvar än vår target, eller...
+                        scannedRobot.getEnergy() < currentTarget.getEnergy() ||
+                        // vi skannade av den robot som vi redan trackar
+                        scannedRobot.getName().equals(currentTarget.getName())
+        ) {
+            // uppdatera måltavlan!
+            currentTarget.update(scannedRobot);
+        }
     }
 
     public void onBulletHit(BulletHitEvent e) {
         hitEnemybyBullet++;
     }
 
-    public void onHitbyBullet(BulletHitEvent e) {
-        gothitbyBullet++;
+    private void strafeEnemy() {
+        if (currentTarget.getDistance() < 200) {
+            // Back a little...
+            setTurnRight(currentTarget.getBearing());
+            setBack(200 - currentTarget.getDistance());
+        } else if (currentTarget.getDistance() > 500) {
+            // Get closer...
+            setTurnRight(currentTarget.getBearing());
+            setAhead(currentTarget.getDistance() - 200);
+        }
+        // Strafe...
+        setTurnRight(currentTarget.getBearing() + 90);
+        setAhead(100 * moveDirection);
+        if (getTime() % 30 == 0)
+            moveDirection *= -1;
     }
+
     public void onBulletMissed(BulletMissedEvent event) {
         missedBullet++;
     }
 
+        private void smartFire() {
+            // The gun isn't overheated or too far away from the target
+            if (getGunHeat() == 0 && Math.abs(getGunTurnRemaining()) < 20) {
+                // If the enemy isn't moving...
+                if (currentTarget.getVelocity() == 0)
+                    setFire(3);
+                else
+                    // Adjust firepower to the distance of our target, or...
+                    setFire(Math.min(Math.min(500 / currentTarget.getDistance(), 3),
+                            // shoot with the least amount of bullet power to kill off the target!
+                            (currentTarget.getEnergy() / 4)));
+            }
+        }
+
     public void onRoundEnded(RoundEndedEvent event) {
         out.print("_______Round ended________");
-        out.println("Shots:" + shotBullet);
-        out.println("Hits:" + hitEnemybyBullet);
+        out.println("\nShots:" + shotBullet);
         out.println("Misses:" + missedBullet);
         out.println("Hit by Enemy:" + gothitbyBullet);
         out.println("Accuracy:" + (hitEnemybyBullet/ shotBullet));
