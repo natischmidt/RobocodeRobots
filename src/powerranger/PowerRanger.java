@@ -19,6 +19,7 @@ public class PowerRanger extends AdvancedRobot {
     double bulletPower = 1;
     double rand = 8;
     int timeToStop = 65;
+    private byte moveDirection = 1;
     boolean haveAlreadyGotAnEnergyBuddy = false;
 
     public void run() {
@@ -93,7 +94,10 @@ public class PowerRanger extends AdvancedRobot {
 
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
         trackEnemy(scannedRobot);
-
+        //Ifall endast en fiende är kvar vill vi använda strafeEnemy()
+        if (getOthers() == 1) {
+            strafeEnemy();
+        }
         //data för att kunna sikta på fienden
         double absBearing = scannedRobot.getBearingRadians() + getHeadingRadians();
         double latVel = scannedRobot.getVelocity() * Math.sin(scannedRobot.getHeadingRadians() - absBearing);
@@ -110,7 +114,22 @@ public class PowerRanger extends AdvancedRobot {
         // Håll kvar radarn
         setTurnRadarRightRadians(Utils.normalRelativeAngle(radarTurn) * 2);
     }
-
+    private void strafeEnemy() {
+        if (currentTarget.getDistance() < 200) {
+            // Back a little...
+            setTurnRight(currentTarget.getBearing());
+            setBack(200 - currentTarget.getDistance());
+        } else if (currentTarget.getDistance() > 500) {
+            // Get closer...
+            setTurnRight(currentTarget.getBearing());
+            setAhead(currentTarget.getDistance() - 200);
+        }
+        // Strafe...
+        setTurnRight(currentTarget.getBearing() + 90);
+        setAhead(100 * moveDirection);
+        if (getTime() % 30 == 0)
+            moveDirection *= -1;
+    }
     private void smartFire() {
         if (getGunHeat() == 0 && Math.abs(getGunTurnRemaining()) < 20) {
             // Om vår target står still skjut med full kraft
