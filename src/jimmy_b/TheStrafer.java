@@ -1,6 +1,8 @@
 package jimmy_b;
 
 import robocode.*;
+import robocode.util.Utils;
+
 import java.awt.*;
 
 public class TheStrafer extends AdvancedRobot {
@@ -16,7 +18,7 @@ public class TheStrafer extends AdvancedRobot {
         setScanColor(Color.red);
         setAdjustRadarForGunTurn(true);
         setAdjustRadarForRobotTurn(true);
-        setAdjustGunForRobotTurn(true);
+
         currentTarget.reset();
 
         while (true) {
@@ -79,8 +81,10 @@ public class TheStrafer extends AdvancedRobot {
             if (currentTarget.getVelocity() == 0)
                 setFire(3);
             else
-                // Adjust firepower to the distance of our target
-                setFire(Math.min(500 / currentTarget.getDistance(), 3));
+                // Adjust firepower to the distance of our target, or...
+                setFire(Math.min(Math.min(500 / currentTarget.getDistance(), 3),
+                        // shoot with the least amount of bullet power to kill off the target!
+                        (currentTarget.getEnergy() / 4)));
         }
     }
 
@@ -104,14 +108,14 @@ public class TheStrafer extends AdvancedRobot {
     }
 
     private void strafeEnemy() {
-        if (currentTarget.getDistance() < 100) {
+        if (currentTarget.getDistance() < 200) {
             // Back a little...
             setTurnRight(currentTarget.getBearing());
-            setBack(100 - currentTarget.getDistance());
+            setBack(200 - currentTarget.getDistance());
         } else if (currentTarget.getDistance() > 500) {
             // Get closer...
             setTurnRight(currentTarget.getBearing());
-            setAhead(currentTarget.getDistance() - 100);
+            setAhead(currentTarget.getDistance() - 200);
         }
         // Strafe...
         setTurnRight(currentTarget.getBearing() + 90);
