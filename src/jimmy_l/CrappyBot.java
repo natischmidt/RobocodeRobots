@@ -6,6 +6,7 @@ import java.awt.*;
 import java.util.Random;
 
 
+
 import static java.lang.Math.PI;
 
 public class CrappyBot extends AdvancedRobot{
@@ -24,24 +25,31 @@ public class CrappyBot extends AdvancedRobot{
 
     public void run() {
 
+
         Thread paintThread = new Thread(new Robotable() {
             public void run() {
-//
+                try {
+                    setColor();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
 
-        //setColor();
+        paintThread.start();
+
+
         addCustomEvent(new Condition("energyBuddies") {
             public boolean test() {
                 return (currentTarget.getEnergy() == getEnergy());
             }
         });
 
-        addCustomEvent(new Condition("crazyColors") {
-            public boolean test() {
-                return (true);
-            }
-        });
+//        addCustomEvent(new Condition("crazyColors") {
+//            public boolean test() {
+//                return (true);
+//            }
+//        });
 
 
         while (true) {
@@ -53,11 +61,11 @@ public class CrappyBot extends AdvancedRobot{
 //                    setColor();
 //                }
 
-            addCustomEvent(new Condition("crazyColors") {
-                public boolean test() {
-                    return (true);
-                }
-            });
+//            addCustomEvent(new Condition("crazyColors") {
+//                public boolean test() {
+//                    return (true);
+//                }
+//            });
 
             setTurnRadarRight(100000);
             // Tell the game we will want to move ahead 40000 -- some large number
@@ -128,14 +136,11 @@ public class CrappyBot extends AdvancedRobot{
 
         }
 
-        if (e.getCondition().getName().equals("crazyColors")) {
-
-            setColor();
-
-            }
-
-
-
+//        if (e.getCondition().getName().equals("crazyColors")) {
+//
+//            setColor();
+//
+//            }
 
     }
 
@@ -226,14 +231,17 @@ public class CrappyBot extends AdvancedRobot{
 //        setBulletColor(getRndColor());
 //        setScanColor(getRndColor());
 //    }
-        public void setColor() {
 
+    public void setColor() throws InterruptedException {
+            while(true) {
+                //Thread.sleep(200);
+                System.out.println("hej");
                 setBodyColor(getCrazyColor());
                 setGunColor(getCrazyColor());
                 setRadarColor(getCrazyColor());
                 setBulletColor(getCrazyColor());
                 setScanColor(getCrazyColor());
-
+            }
         }
 
     public Color getCrazyColor() {
@@ -300,31 +308,31 @@ public class CrappyBot extends AdvancedRobot{
     public void energyBuddies (double energy, String name) {
 
         if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {
-//            System.out.println("We both have " + (int)getEnergy() + " energy, " + currentTarget.getName() + ", we are energy buddies!");
-//            System.out.println("   ***     ***                   ***     ***                   ***     ***");
-//            System.out.println(" **   ** **   **               **   ** **   **               **   ** **   **");
-//            System.out.println("*       *       *             *       *       *             *       *       *");
-//            System.out.println("*               *             *               *             *               *");
-//            System.out.println(" *     LOVE    *               *     LOVE    *               *     LOVE    *");
-//            System.out.println("  **         **   ***     ***   **         **   ***     ***   **         **");
-//            System.out.println("    **     **   **   ** **   **   **     **   **   ** **   **   **     **");
-//            System.out.println("      ** **    *       *       *    ** **    *       *       *    ** **");
-//            System.out.println("        *      *               *      *      *               *      *");
-//            System.out.println("                *   Buddies   *               *     LOVE    *");
-//            System.out.println("   ***     ***   **         **   ***     ***   **         **   ***     ***");
-//            System.out.println(" **   ** **   **   **     **   **   ** **   **   **     **   **   ** **   **");
-//            System.out.println("*       *       *    ** **    *       *       *    ** **    *       *       *");
-//            System.out.println("*               *      *      *   Energy      *      *      *               *");
-//            System.out.println(" *     LOVE    *               *    buddies  *               *     LOVE    *");
-//            System.out.println("  **         **   ***     ***   **         **   ***     ***   **         **");
-//            System.out.println("    **     **   **   ** **   **   **     **   **   ** **   **   **     **");
-//            System.out.println("      ** **    *       *       *    ** **    *       *       *    ** **");
-//            System.out.println("        *      *               *      *      *    4-ever     *      *");
-//            System.out.println("                *     LOVE    *               *             *");
-//            System.out.println("                 **         **                 **         **");
-//            System.out.println("                   **     **                     **     **");
-//            System.out.println("                     ** **                         ** **");
-//            System.out.println("                       *                             *");
+            System.out.println("We both have " + (int)getEnergy() + " energy, " + currentTarget.getName() + ", we are energy buddies!");
+            System.out.println("   ***     ***                   ***     ***                   ***     ***");
+            System.out.println(" **   ** **   **               **   ** **   **               **   ** **   **");
+            System.out.println("*       *       *             *       *       *             *       *       *");
+            System.out.println("*               *             *               *             *               *");
+            System.out.println(" *     LOVE    *               *     LOVE    *               *     LOVE    *");
+            System.out.println("  **         **   ***     ***   **         **   ***     ***   **         **");
+            System.out.println("    **     **   **   ** **   **   **     **   **   ** **   **   **     **");
+            System.out.println("      ** **    *       *       *    ** **    *       *       *    ** **");
+            System.out.println("        *      *               *      *      *               *      *");
+            System.out.println("                *   Buddies   *               *     LOVE    *");
+            System.out.println("   ***     ***   **         **   ***     ***   **         **   ***     ***");
+            System.out.println(" **   ** **   **   **     **   **   ** **   **   **     **   **   ** **   **");
+            System.out.println("*       *       *    ** **    *       *       *    ** **    *       *       *");
+            System.out.println("*               *      *      *   Energy      *      *      *               *");
+            System.out.println(" *     LOVE    *               *    buddies  *               *     LOVE    *");
+            System.out.println("  **         **   ***     ***   **         **   ***     ***   **         **");
+            System.out.println("    **     **   **   ** **   **   **     **   **   ** **   **   **     **");
+            System.out.println("      ** **    *       *       *    ** **    *       *       *    ** **");
+            System.out.println("        *      *               *      *      *    4-ever     *      *");
+            System.out.println("                *     LOVE    *               *             *");
+            System.out.println("                 **         **                 **         **");
+            System.out.println("                   **     **                     **     **");
+            System.out.println("                     ** **                         ** **");
+            System.out.println("                       *                             *");
 
 
         }
