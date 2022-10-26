@@ -1,10 +1,11 @@
 package jimmy_l;
 
+import jdk.jshell.execution.Util;
 import jimmy_b.EnemyBot;
 import robocode.*;
-import java.awt.*;
-import java.util.Random;
+import robocode.util.Utils;
 
+import java.awt.*;
 
 
 import static java.lang.Math.PI;
@@ -20,6 +21,7 @@ public class CrappyBot extends AdvancedRobot{
     int redCounter = 1;
     int greenCounter = 90;
     int blueCounter = 180;
+    boolean turnOffThread = false;
 
     AdvancedRobot rbt = new AdvancedRobot();
 
@@ -36,7 +38,12 @@ public class CrappyBot extends AdvancedRobot{
             }
         });
 
-        paintThread.start();
+          paintThread.start();
+
+        if (getOthers() > 1) {
+            paintThread.interrupt();
+
+        }
 
 
         addCustomEvent(new Condition("energyBuddies") {
@@ -233,15 +240,15 @@ public class CrappyBot extends AdvancedRobot{
 //    }
 
     public void setColor() throws InterruptedException {
-            while(true) {
-                //Thread.sleep(200);
-                System.out.println("hej");
+            while (true) {
                 setBodyColor(getCrazyColor());
                 setGunColor(getCrazyColor());
                 setRadarColor(getCrazyColor());
                 setBulletColor(getCrazyColor());
                 setScanColor(getCrazyColor());
             }
+
+
         }
 
     public Color getCrazyColor() {
@@ -249,6 +256,7 @@ public class CrappyBot extends AdvancedRobot{
         int green;
         int blue;
 
+        red = colorChecker(redCounter, 255, 1);
         if (redCounter < 255) {
             red = redCounter;
             redCounter++;
@@ -278,14 +286,24 @@ public class CrappyBot extends AdvancedRobot{
         return new Color(red, green, blue);
     }
 
-    public Color getRndColor() {													//returnerar randomiserade värden 0-255
-        Random random = new Random();
-        int red = random.nextInt(255);
-        int green = random.nextInt(255);
-        int blue = random.nextInt(255);
+//    public Color getCrazyColor() {
+//        int red = colorChecker(redCounter, 255, 1);
+//        int  green = colorChecker(greenCounter, 255, 1);
+//        int blue = colorChecker(blueCounter, 255, 1);
+//        return new Color(red, green, blue);
+//    }
 
-        return new Color(red, green, blue);
-    }
+        public int colorChecker (int colorCounter, int checkThis, int addAmount) {
+            int colorOk = 0;
+            if (colorCounter < checkThis) {
+                colorOk = colorCounter;
+            } else {
+                colorOk = 0;
+            }
+            return colorOk;
+        }
+
+
 
     public void onWin(WinEvent e) {													//vid vinst: skjut som en galning
         while (true) {
@@ -337,7 +355,14 @@ public class CrappyBot extends AdvancedRobot{
 
         }
     }
-
+//    public Color getRndColor() {													//returnerar randomiserade värden 0-255
+//        Random random = new Random();
+//        int red = random.nextInt(255);
+//        int green = random.nextInt(255);
+//        int blue = random.nextInt(255);
+//
+//        return new Color(red, green, blue);
+//    }
 
 
 }

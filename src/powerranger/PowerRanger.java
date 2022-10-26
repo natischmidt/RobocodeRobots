@@ -45,6 +45,7 @@ public class PowerRanger extends AdvancedRobot {
         });
         paintThread.start();
 
+
         initialize();
         // Vänder roboten mot väggen
         turnLeft(getHeading() % 90);
@@ -183,6 +184,14 @@ public class PowerRanger extends AdvancedRobot {
             currentTarget.reset();
         }
     }
+    public void onWin(WinEvent e) {													//vid vinst: skjut som en galning
+
+        while (true) {
+            turnRight(25);
+            turnRight(-25);
+        }
+
+    }
 
     public void onBulletHit(BulletHitEvent e) {
         hitEnemybyBullet++;
@@ -228,7 +237,6 @@ public class PowerRanger extends AdvancedRobot {
             redCounter = 0;
             red = redCounter;
         }
-        System.out.println("red: " + red);
 
         if (greenCounter < 254) {
             green = greenCounter;
@@ -237,7 +245,6 @@ public class PowerRanger extends AdvancedRobot {
             greenCounter = 0;
             green = greenCounter;
         }
-        System.out.println("green: " + green);
 
         if (blueCounter < 253) {
             blue = blueCounter;
@@ -246,7 +253,7 @@ public class PowerRanger extends AdvancedRobot {
             blueCounter = 0;
             blue = blueCounter;
         }
-        System.out.println("blue: " + blue);
+
         return new Color(red, green, blue);
     }
 
