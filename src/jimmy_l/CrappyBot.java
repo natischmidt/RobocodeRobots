@@ -18,6 +18,9 @@ public class CrappyBot extends AdvancedRobot{
     public double takeAim;
     public double cornerEscapeMultiplier;
     boolean haveAlreadyGotAnEnergyBuddy = false;
+    int red;
+    int green;
+    int blue;
     int redCounter = 1;
     int greenCounter = 90;
     int blueCounter = 180;
@@ -40,10 +43,10 @@ public class CrappyBot extends AdvancedRobot{
 
           paintThread.start();
 
-        if (getOthers() > 1) {
-            paintThread.interrupt();
-
-        }
+//        if (getOthers() > 1) {
+//            paintThread.interrupt();
+//
+//        }
 
 
         addCustomEvent(new Condition("energyBuddies") {
@@ -247,42 +250,45 @@ public class CrappyBot extends AdvancedRobot{
                 setBulletColor(getCrazyColor());
                 setScanColor(getCrazyColor());
             }
-
-
         }
 
     public Color getCrazyColor() {
-        int red;
-        int green;
-        int blue;
+        //int red;
+        //int green;
+        //int blue;
 
         red = colorChecker(redCounter, 255, 1);
-        if (redCounter < 255) {
-            red = redCounter;
-            redCounter++;
-        } else {
-            redCounter = 0;
-            red = redCounter;
-        }
+        redCounter = red;
         System.out.println("red: " + red);
-
-        if (greenCounter < 254) {
-            green = greenCounter;
-            greenCounter = greenCounter +2;
-        } else {
-            greenCounter = 0;
-            green = greenCounter;
-        }
+//        if (redCounter < 255) {
+//            red = redCounter;
+//            redCounter++;
+//        } else {
+//            redCounter = 0;
+//            red = redCounter;
+//        }
+        green = colorChecker(greenCounter, 254, 2);
+        greenCounter = green;
         System.out.println("green: " + green);
 
-        if (blueCounter < 253) {
-            blue = blueCounter;
-            blueCounter = blueCounter + 3;
-        } else {
-            blueCounter = 0;
-            blue = blueCounter;
-        }
+//        if (greenCounter < 254) {
+//            green = greenCounter;
+//            greenCounter = greenCounter +2;
+//        } else {
+//            greenCounter = 0;
+//            green = greenCounter;
+//        }
+        blue = colorChecker(blueCounter, 253, 3);
+        blueCounter = blue;
         System.out.println("blue: " + blue);
+//        if (blueCounter < 253) {
+//            blue = blueCounter;
+//            blueCounter = blueCounter + 3;
+//        } else {
+//            blueCounter = 0;
+//            blue = blueCounter;
+//        }
+
         return new Color(red, green, blue);
     }
 
@@ -294,9 +300,9 @@ public class CrappyBot extends AdvancedRobot{
 //    }
 
         public int colorChecker (int colorCounter, int checkThis, int addAmount) {
-            int colorOk = 0;
+            int colorOk;
             if (colorCounter < checkThis) {
-                colorOk = colorCounter;
+                colorOk = colorCounter + addAmount;
             } else {
                 colorOk = 0;
             }
