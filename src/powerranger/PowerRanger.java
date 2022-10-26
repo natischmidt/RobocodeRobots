@@ -208,8 +208,7 @@ public class PowerRanger extends AdvancedRobot {
     }
     public void setColor() throws InterruptedException {
         while(true) {
-            //Thread.sleep(200);
-            System.out.println("hej");
+
             setBodyColor(getCrazyColor());
             setGunColor(getCrazyColor());
             setRadarColor(getCrazyColor());
