@@ -1,14 +1,9 @@
 package jimmy_l;
 
-import jdk.jshell.execution.Util;
 import jimmy_b.EnemyBot;
 import robocode.*;
-import robocode.util.Utils;
-
 import java.awt.*;
 
-
-import static java.lang.Math.PI;
 
 public class CrappyBot extends AdvancedRobot{
     private EnemyBot currentTarget = new EnemyBot();
@@ -28,20 +23,33 @@ public class CrappyBot extends AdvancedRobot{
 
     AdvancedRobot rbt = new AdvancedRobot();
 
+
+    static Thread paintThread = new Thread(new Robotable() {
+        public void run() {
+
+            CrappyBot crappy = new CrappyBot();
+            try {
+                crappy.setColor();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    });
     public void run() {
 
+        CrappyBot.paintThread.start();
 
-        Thread paintThread = new Thread(new Robotable() {
-            public void run() {
-                try {
-                    setColor();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+//        Thread paintThread = new Thread(new Robotable() {
+//            public void run() {
+//                try {
+//                    setColor();
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        });
 
-          paintThread.start();
+
 
 //        if (getOthers() > 1) {
 //            paintThread.interrupt();
@@ -66,7 +74,13 @@ public class CrappyBot extends AdvancedRobot{
             setAdjustGunForRobotTurn(true);
             setAdjustRadarForGunTurn(true);
             setAdjustRadarForRobotTurn(true);
-
+//            if (getOthers() == 1) {
+//                try {
+//                    paintThread.join();
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
 //            if (getTime() % 2 == 0) {
 //                    setColor();
 //                }
@@ -92,9 +106,7 @@ public class CrappyBot extends AdvancedRobot{
         }
     }
 
-    /**
-     * onHitWall:  Handle collision with wall.
-     */
+
     public void onHitWall(HitWallEvent e) {
         reverseDirection();
     }
@@ -126,11 +138,11 @@ public class CrappyBot extends AdvancedRobot{
     public void onScannedRobot(ScannedRobotEvent e) {
         trackEnemy(e);
 
-        setTurnRadarRight(100000);
-        turnGunRightRadians(aimAtBearing(e.getBearingRadians()));
-        smartFire(e.getDistance());
-
-        dodgeTheBullets1v1(e.getBearingRadians());
+//        setTurnRadarRight(100000);
+//        turnGunRightRadians(aimAtBearing(e.getBearingRadians()));
+//        //smartFire(e.getDistance());
+//
+//        dodgeTheBullets1v1(e.getBearingRadians());
 
     }
 
@@ -159,42 +171,42 @@ public class CrappyBot extends AdvancedRobot{
 
     public void dodgeTheBullets1v1 (double enemyBearing) {
 
+//
+//        while (getOthers() == 1) {
+////            if ((getBattleFieldWidth() - getX()) < ((getBattleFieldWidth() / 8)) && (getBattleFieldHeight() - getY()) < ((getBattleFieldHeight() / 8))) {                    //om vi är i övre högra hörnet
+////                cornerEscapeMultiplier = 1.25;                  //multiplicera med 1.25 för att åka in mot mitten
+////                getOutOFTheCorner(cornerEscapeMultiplier);
+////            } else if ((getBattleFieldWidth() - getX()) > ((getBattleFieldWidth() * 0.8)) && (getBattleFieldHeight() - getY()) < ((getBattleFieldHeight() / 8))) {          // om vi är i övre vänstra hörnet
+////                cornerEscapeMultiplier = 0.75;                  //multiplicera med 0.75 för att åka in mot mitten
+////                getOutOFTheCorner(cornerEscapeMultiplier);
+////            } else if ((getBattleFieldWidth() - getX()) > ((getBattleFieldWidth() * 0.8)) && (getBattleFieldHeight() - getY()) < ((getBattleFieldHeight() * 0.8))) {        // om vi är i nedre vänstra hörnet
+////                cornerEscapeMultiplier = 0.25;                  //multiplicera med 0.25 för att åka in mot mitten
+////                getOutOFTheCorner(cornerEscapeMultiplier);
+////            } else if ((getBattleFieldWidth() - getX()) > ((getBattleFieldWidth() / 8)) && (getBattleFieldHeight() - getY()) < ((getBattleFieldHeight() * 0.8))) {          //om vi är i nedre högra hörnet
+////                cornerEscapeMultiplier = 1.75;                  //multiplicera med 1.75 för att åka in mot mitten
+////                getOutOFTheCorner(cornerEscapeMultiplier);
+////            }
+//
+//            setTurnRightRadians(enemyBearing - (0.5 * PI));
+//            setAhead(2000);
+//            waitFor(new TurnCompleteCondition(this));
 
-        while (getOthers() == 1) {
-//            if ((getBattleFieldWidth() - getX()) < ((getBattleFieldWidth() / 8)) && (getBattleFieldHeight() - getY()) < ((getBattleFieldHeight() / 8))) {                    //om vi är i övre högra hörnet
-//                cornerEscapeMultiplier = 1.25;                  //multiplicera med 1.25 för att åka in mot mitten
-//                getOutOFTheCorner(cornerEscapeMultiplier);
-//            } else if ((getBattleFieldWidth() - getX()) > ((getBattleFieldWidth() * 0.8)) && (getBattleFieldHeight() - getY()) < ((getBattleFieldHeight() / 8))) {          // om vi är i övre vänstra hörnet
-//                cornerEscapeMultiplier = 0.75;                  //multiplicera med 0.75 för att åka in mot mitten
-//                getOutOFTheCorner(cornerEscapeMultiplier);
-//            } else if ((getBattleFieldWidth() - getX()) > ((getBattleFieldWidth() * 0.8)) && (getBattleFieldHeight() - getY()) < ((getBattleFieldHeight() * 0.8))) {        // om vi är i nedre vänstra hörnet
-//                cornerEscapeMultiplier = 0.25;                  //multiplicera med 0.25 för att åka in mot mitten
-//                getOutOFTheCorner(cornerEscapeMultiplier);
-//            } else if ((getBattleFieldWidth() - getX()) > ((getBattleFieldWidth() / 8)) && (getBattleFieldHeight() - getY()) < ((getBattleFieldHeight() * 0.8))) {          //om vi är i nedre högra hörnet
-//                cornerEscapeMultiplier = 1.75;                  //multiplicera med 1.75 för att åka in mot mitten
-//                getOutOFTheCorner(cornerEscapeMultiplier);
-//            }
-
-            setTurnRightRadians(enemyBearing - (0.5 * PI));
-            setAhead(2000);
-            waitFor(new TurnCompleteCondition(this));
-
-        }
+   //     }
     }
 
-    public void getOutOFTheCorner (double multiplier) {
-        setTurnRightRadians((multiplier *PI - getHeadingRadians()));
-
-        setAhead(550);
-        waitFor(new TurnCompleteCondition(this));
-
-    }
-
-
-    public void onHitByBullet (HitByBulletEvent event) {
+//    public void getOutOFTheCorner (double multiplier) {
+//        setTurnRightRadians((multiplier *PI - getHeadingRadians()));
+//
+//        setAhead(550);
+//        waitFor(new TurnCompleteCondition(this));
+//
+//    }
 
 
-    }
+//    public void onHitByBullet (HitByBulletEvent event) {
+//
+//
+//    }
 
     public void onHitRobot(HitRobotEvent e) {
 
@@ -202,36 +214,36 @@ public class CrappyBot extends AdvancedRobot{
             reverseDirection();
         }
 
-        if ((e.isMyFault()) && (Math.abs(e.getBearing())) <= 90) {				//om det var vi som orsakade krocken, och andra roboten är framför oss
-            setBack(100);
-        } else if ((e.isMyFault()) && (Math.abs(e.getBearing()) >= 90)) {		//om det var vi som orsakade krocken, och andra roboten är bakom oss
-            setAhead(100);
-        } else if (e.getBearing() > -90 && e.getBearing() <= 90) {                      //om det inte var vi som orsakade krocken, , kolla om fienden är framför eller bakom oss, sedan fly.
-            setBack(100);
-        } else {
-            setAhead(100);
-        }
-        setTurnGunRight(aimAtBearing(e.getBearing()));										//sikta på andra roboten
-        fire(3);
+//        if ((e.isMyFault()) && (Math.abs(e.getBearing())) <= 90) {				//om det var vi som orsakade krocken, och andra roboten är framför oss
+//            setBack(100);
+//        } else if ((e.isMyFault()) && (Math.abs(e.getBearing()) >= 90)) {		//om det var vi som orsakade krocken, och andra roboten är bakom oss
+//            setAhead(100);
+//        } else if (e.getBearing() > -90 && e.getBearing() <= 90) {                      //om det inte var vi som orsakade krocken, , kolla om fienden är framför eller bakom oss, sedan fly.
+//            setBack(100);
+//        } else {
+//            setAhead(100);
+//        }
+//        setTurnGunRight(aimAtBearing(e.getBearing()));										//sikta på andra roboten
+        //fire(3);
     }
 
-    public void smartFire(double robotDistance) {
-        if (robotDistance > 250 || getEnergy() < 15) {
-            fire(1);
-        } else if (robotDistance > 100) {
-            fire(2);
-        } else {
-            fire(3);
-        }
-    }
-    public double aimAtBearing (double enemyBearing) {
-
-        takeAim = enemyBearing - getGunHeadingRadians();
-        if (takeAim > PI) {
-            takeAim = (PI *2) - enemyBearing + getGunHeadingRadians();
-        }
-        return takeAim;
-    }
+//    public void smartFire(double robotDistance) {
+//        if (robotDistance > 250 || getEnergy() < 15) {
+//            fire(1);
+//        } else if (robotDistance > 100) {
+//            fire(2);
+//        } else {
+//            fire(3);
+//        }
+//    }
+//    public double aimAtBearing (double enemyBearing) {
+//
+//        takeAim = enemyBearing - getGunHeadingRadians();
+//        if (takeAim > PI) {
+//            takeAim = (PI *2) - enemyBearing + getGunHeadingRadians();
+//        }
+//        return takeAim;
+//    }
 
 //    public void setColor() {
 //        // Set colors
@@ -242,14 +254,17 @@ public class CrappyBot extends AdvancedRobot{
 //        setScanColor(getRndColor());
 //    }
 
-    public void setColor() throws InterruptedException {
-            while (true) {
+    // throws InterruptedException
+    public void setColor() throws InterruptedException{
+            for (int i = 0; getOthers() > 1; i++) {
+                System.out.println(i);
                 setBodyColor(getCrazyColor());
                 setGunColor(getCrazyColor());
                 setRadarColor(getCrazyColor());
                 setBulletColor(getCrazyColor());
                 setScanColor(getCrazyColor());
             }
+            CrappyBot.paintThread.interrupt();
         }
 
     public Color getCrazyColor() {
@@ -311,7 +326,7 @@ public class CrappyBot extends AdvancedRobot{
 
 
 
-    public void onWin(WinEvent e) {													//vid vinst: skjut som en galning
+    public void onWin(WinEvent e) {
         while (true) {
             turnRight(25);
             turnRight(-25);

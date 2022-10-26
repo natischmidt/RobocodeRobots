@@ -43,7 +43,7 @@ public class PowerRanger extends AdvancedRobot {
                 }
             }
         });
-        paintThread.start();
+        //paintThread.start();
 
 
         initialize();
