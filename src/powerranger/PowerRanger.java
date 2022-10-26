@@ -43,6 +43,8 @@ public class PowerRanger extends AdvancedRobot {
                 }
             }
         });
+        paintThread.start();
+
         initialize();
         // Vänder roboten mot väggen
         turnLeft(getHeading() % 90);
