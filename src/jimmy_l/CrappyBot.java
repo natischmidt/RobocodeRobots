@@ -2,6 +2,8 @@ package jimmy_l;
 
 import jimmy_b.EnemyBot;
 import robocode.*;
+import robocode.util.Utils;
+
 import java.awt.*;
 
 
@@ -20,24 +22,12 @@ public class CrappyBot extends AdvancedRobot{
     int greenCounter = 90;
     int blueCounter = 180;
     boolean turnOffThread = false;
+    int turnDirection = 1;
+    int moveDirection = 1;
 
     AdvancedRobot rbt = new AdvancedRobot();
 
-
-    static Thread paintThread = new Thread(new Robotable() {
-        public void run() {
-
-            CrappyBot crappy = new CrappyBot();
-            try {
-                crappy.setColor();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-    });
     public void run() {
-
-        CrappyBot.paintThread.start();
 
 //        Thread paintThread = new Thread(new Robotable() {
 //            public void run() {
@@ -90,16 +80,27 @@ public class CrappyBot extends AdvancedRobot{
 //                    return (true);
 //                }
 //            });
-
             setTurnRadarRight(100000);
+
+            ahead(moveDirection);
+            //avoidWall();
+//            if (getBattleFieldHeight() - getX() < 30 || (getBattleFieldHeight() - getX()) > (getBattleFieldHeight()-30)) {
+//                moveDirection *= -1;
+//            } else if (getBattleFieldWidth() - getY() < 30 || (getBattleFieldWidth() - getY()) > (getBattleFieldWidth()-30)) {
+//                moveDirection *= -1;
+//
+//            }
             // Tell the game we will want to move ahead 40000 -- some large number
-            setAhead(2000);
+
+
 
             movingForward = true;
             // Tell the game we will want to turn right 90
             setTurnRight(180);
 
-            waitFor(new TurnCompleteCondition(this));
+            execute();
+
+
 
 
 
@@ -107,15 +108,47 @@ public class CrappyBot extends AdvancedRobot{
     }
 
 
+    private int avoidWalls() {
+
+        double wall_avoid_distance = 15;
+        double fieldHeight = getBattleFieldHeight();
+        double fieldWidth = getBattleFieldWidth();
+        double x = getX();
+        double y = getY();
+        if (getX() < wall_avoid_distance || getX() > fieldWidth -wall_avoid_distance) {
+            moveDirection *= -1;
+        }
+        if (getY() < wall_avoid_distance || getY() > getBattleFieldHeight() -wall_avoid_distance) {
+            moveDirection *= -1;
+        }
+
+        return moveDirection;
+    }
+    public void ahead(int direction) {
+        setAhead(2000 * direction);
+        waitFor(new TurnCompleteCondition(this));
+    }
+
+    public void avoidWall () {
+        System.out.println("avoid that wall");
+        if (getBattleFieldHeight() - getX() < 30 || (getBattleFieldHeight() - getX()) > (getBattleFieldHeight()-30)) {
+            reverseDirection();
+        } else if (getBattleFieldWidth() - getY() < 30 || (getBattleFieldWidth() - getY()) > (getBattleFieldWidth()-30)) {
+            reverseDirection();
+        }
+    }
+
     public void onHitWall(HitWallEvent e) {
         reverseDirection();
     }
 
     public void reverseDirection() {
         if (movingForward) {
+
             setBack(40000);
             movingForward = false;
         } else {
+
             setAhead(40000);
             movingForward = true;
         }
@@ -137,6 +170,21 @@ public class CrappyBot extends AdvancedRobot{
     }
     public void onScannedRobot(ScannedRobotEvent e) {
         trackEnemy(e);
+        avoidWalls();
+
+        if (currentTarget.getEnergy() == 0) {
+            if (e.getBearing() >= 0) {
+                turnDirection = 1;
+            } else {
+                turnDirection = -1;
+            }
+
+            setTurnRight(e.getBearing());
+            setAhead(e.getDistance() + 5);
+            execute();
+//            turnRight(e.getBearing());
+//            ahead(e.getDistance() + 5);
+        }
 
 //        setTurnRadarRight(100000);
 //        turnGunRightRadians(aimAtBearing(e.getBearingRadians()));
@@ -264,7 +312,7 @@ public class CrappyBot extends AdvancedRobot{
                 setBulletColor(getCrazyColor());
                 setScanColor(getCrazyColor());
             }
-            CrappyBot.paintThread.interrupt();
+           // CrappyBot.paintThread.interrupt();
         }
 
     public Color getCrazyColor() {

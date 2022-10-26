@@ -34,16 +34,16 @@ public class PowerRanger extends AdvancedRobot {
             }
         });
 
-        Thread paintThread = new Thread(new Robotable() {
-            public void run() {
-                try {
-                    setColor();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-        //paintThread.start();
+//        Thread paintThread = new Thread(new Robotable() {
+//            public void run() {
+//                try {
+//                    setColor();
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        });
+//      paintThread.start();
 
 
         initialize();
