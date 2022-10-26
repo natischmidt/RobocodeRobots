@@ -1,5 +1,6 @@
 package powerranger;
 
+import jimmy_l.Robotable;
 import robocode.AdvancedRobot;
 import robocode.BulletHitEvent;
 import robocode.ScannedRobotEvent;
@@ -21,6 +22,9 @@ public class PowerRanger extends AdvancedRobot {
     int timeToStop = 65;
     private byte moveDirection = 1;
     boolean haveAlreadyGotAnEnergyBuddy = false;
+    int redCounter = 1;
+    int greenCounter = 90;
+    int blueCounter = 180;
 
     public void run() {
 
@@ -30,6 +34,15 @@ public class PowerRanger extends AdvancedRobot {
             }
         });
 
+        Thread paintThread = new Thread(new Robotable() {
+            public void run() {
+                try {
+                    setColor();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
         initialize();
         // Vänder roboten mot väggen
         turnLeft(getHeading() % 90);
@@ -191,6 +204,51 @@ public class PowerRanger extends AdvancedRobot {
 
         }
     }
+    public void setColor() throws InterruptedException {
+        while(true) {
+            //Thread.sleep(200);
+            System.out.println("hej");
+            setBodyColor(getCrazyColor());
+            setGunColor(getCrazyColor());
+            setRadarColor(getCrazyColor());
+            setBulletColor(getCrazyColor());
+            setScanColor(getCrazyColor());
+        }
+    }
+    public Color getCrazyColor() {
+        int red;
+        int green;
+        int blue;
+
+        if (redCounter < 255) {
+            red = redCounter;
+            redCounter++;
+        } else {
+            redCounter = 0;
+            red = redCounter;
+        }
+        System.out.println("red: " + red);
+
+        if (greenCounter < 254) {
+            green = greenCounter;
+            greenCounter = greenCounter +2;
+        } else {
+            greenCounter = 0;
+            green = greenCounter;
+        }
+        System.out.println("green: " + green);
+
+        if (blueCounter < 253) {
+            blue = blueCounter;
+            blueCounter = blueCounter + 3;
+        } else {
+            blueCounter = 0;
+            blue = blueCounter;
+        }
+        System.out.println("blue: " + blue);
+        return new Color(red, green, blue);
+    }
+
     public void energyBuddies (double energy, String name) {
 
         if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {            //om scannad robot har lika mycket energi som vi och vår energi inte är 0 eller 100...
