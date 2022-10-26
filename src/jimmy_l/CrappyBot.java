@@ -24,6 +24,11 @@ public class CrappyBot extends AdvancedRobot{
 
     public void run() {
 
+        Thread paintThread = new Thread(new Robotable() {
+            public void run() {
+//
+            }
+        });
 
         //setColor();
         addCustomEvent(new Condition("energyBuddies") {
