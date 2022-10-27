@@ -1,6 +1,5 @@
 package powerranger;
 
-import jimmy_l.Robotable;
 import robocode.AdvancedRobot;
 import robocode.BulletHitEvent;
 import robocode.ScannedRobotEvent;
@@ -188,7 +187,7 @@ public class PowerRanger extends AdvancedRobot {
         }
     }
     public void onWin(WinEvent e) {
-        printOut.printOnWin();
+        PrintOut.printOnWin();
 
 
         while (true) {
@@ -254,13 +253,13 @@ public class PowerRanger extends AdvancedRobot {
 
         if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {            //om scannad robot har lika mycket energi som vi och vår energi inte är 0 eller 100...
             //...så känner vi en djup samhörighet med den.
-           printOut.printOnMadeABuddyForLife();
+           PrintOut.printOnMadeABuddyForLife();
 
 
         }
     }
     public void onDeath(DeathEvent e) {
-        printOut.printOnDeath();
+        PrintOut.printOnDeath();
     }
 
 }

@@ -1,6 +1,6 @@
 package powerranger;
 
-public class printOut {
+public class PrintOut {
 
     public static void printOnWin() {
         System.out.println("⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀    ⠀⠀⠀⠀⠀⠀⢀⣀⠤⠤⢴⣖⠲⠶⠤⢄⣀⠀⠀⠀⠀⠀⠀");
