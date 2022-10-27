@@ -6,6 +6,7 @@ import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
 import robocode.*;
 import java.awt.*;
+import java.util.Random;
 
 
 public class PowerRanger extends AdvancedRobot {
@@ -28,7 +29,6 @@ public class PowerRanger extends AdvancedRobot {
     byte moveDirectionWhileWalling = 1;
     double rand = 8;
     int timeToStop = 65;
-
     boolean haveAlreadyGotAnEnergyBuddy = false;
     int redCounter = 1;
     int greenCounter = 90;
@@ -41,18 +41,6 @@ public class PowerRanger extends AdvancedRobot {
                 return (currentTarget.getEnergy() == getEnergy());
             }
         });
-
-//        Thread paintThread = new Thread(new Robotable() {
-//            public void run() {
-//                try {
-//                    setColor();
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        });
-//      paintThread.start();
-
 
         initialize();
         // Vänder roboten mot väggen
@@ -123,6 +111,7 @@ public class PowerRanger extends AdvancedRobot {
 
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
         trackEnemy(scannedRobot);
+        setColor();
 
         //data för att kunna sikta på fienden
         double absBearing = scannedRobot.getBearingRadians() + getHeadingRadians();
@@ -236,47 +225,27 @@ public class PowerRanger extends AdvancedRobot {
 
         }
     }
-    public void setColor() throws InterruptedException {
-        while(true) {
+    public void setColor() {
+        for (int i = 0; i < 10000; i++) {
 
-            setBodyColor(getCrazyColor());
-            setGunColor(getCrazyColor());
-            setRadarColor(getCrazyColor());
-            setBulletColor(getCrazyColor());
-            setScanColor(getCrazyColor());
+            setBodyColor(getRndColor());
+            setGunColor(getRndColor());
+            setRadarColor(getRndColor());
+            setBulletColor(getRndColor());
+            setScanColor(getRndColor());
         }
     }
-    public Color getCrazyColor() {
-        int red;
-        int green;
-        int blue;
-
-        if (redCounter < 255) {
-            red = redCounter;
-            redCounter++;
-        } else {
-            redCounter = 0;
-            red = redCounter;
-        }
-
-        if (greenCounter < 254) {
-            green = greenCounter;
-            greenCounter = greenCounter +2;
-        } else {
-            greenCounter = 0;
-            green = greenCounter;
-        }
-
-        if (blueCounter < 253) {
-            blue = blueCounter;
-            blueCounter = blueCounter + 3;
-        } else {
-            blueCounter = 0;
-            blue = blueCounter;
-        }
+    public Color getRndColor() {													//returnerar randomiserade värden 0-255
+        Random random = new Random();
+        int red = random.nextInt(255);
+        int green = random.nextInt(255);
+        int blue = random.nextInt(255);
 
         return new Color(red, green, blue);
     }
+
+
+
 
     public void energyBuddies (double energy, String name) {
 
