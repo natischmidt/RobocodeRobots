@@ -14,7 +14,6 @@ public class PowerRanger extends AdvancedRobot {
     private EnemyBot currentTarget = new EnemyBot();
     double shotBullet = 0;
     double hitEnemybyBullet = 0;
-    double gothitbyBullet = 0;
     double missedBullet = 0;
     int dir = 1;
     double bulletPower = 1;
