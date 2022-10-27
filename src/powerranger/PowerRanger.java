@@ -109,8 +109,8 @@ public class PowerRanger extends AdvancedRobot {
 
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
         trackEnemy(scannedRobot);
-        //Ifall endast en fiende är kvar vill vi använda strafeEnemy()
-        if (getOthers() == 1) {
+        //Ifall endast en fiende är kvar och vi har midnre 'n 20 energy eller att vi har missad mer 'n 10 skott byter vi stragtie
+        if (getOthers() == 1 && (int)getEnergy() < 20 || getOthers() == 1 && missedBullet > 10){
             strafeEnemy();
         }
         //data för att kunna sikta på fienden
