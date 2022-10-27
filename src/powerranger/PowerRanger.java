@@ -1,5 +1,6 @@
 package powerranger;
 
+import jimmy_l.Robotable;
 import robocode.AdvancedRobot;
 import robocode.BulletHitEvent;
 import robocode.ScannedRobotEvent;
@@ -36,9 +37,9 @@ public class PowerRanger extends AdvancedRobot {
 
     public void run() {
 
-        addCustomEvent(new Condition("energyBuddies") {                      //lägger till ett mycket viktigt och nödvändigt custom event.
+        addCustomEvent(new Condition("energyBuddies") {                                 //lägger till ett mycket viktigt och nödvändigt custom event.
             public boolean test() {
-                return (currentTarget.getEnergy() == getEnergy());
+                return (currentTarget.getEnergy() == getEnergy());                             //om vi har lika mycket energi som vårt target...
             }
         });
 
@@ -111,7 +112,7 @@ public class PowerRanger extends AdvancedRobot {
 
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
         trackEnemy(scannedRobot);
-        setColor();
+        setColor();                             //bli schnygg
 
         //data för att kunna sikta på fienden
         double absBearing = scannedRobot.getBearingRadians() + getHeadingRadians();
@@ -186,34 +187,9 @@ public class PowerRanger extends AdvancedRobot {
             currentTarget.reset();
         }
     }
-    public void onWin(WinEvent e) {													//vid vinst: skjut som en galning
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀    ⠀⠀⠀⠀⠀⠀⢀⣀⠤⠤⢴⣖⠲⠶⠤⢄⣀⠀⠀⠀⠀⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠤⠞⣩⣴⠚⢿⣟⣿⣻⣟⡿⣶⣬⣉⡒⠦⣄⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣹⣯⣻⡿⣿⣷⣌⣿⣞⡷⣯⣟⡷⣯⣿⡿⣿⣄⣳⠀⠀⠀⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣧⣾⣯⣿⣽⡿⣾⣟⡷⣯⣟⡷⣯⣟⣷⡿⣟⣿⣽⡟⡆");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡜⣾⣿⣻⣟⡾⣽⣳⢿⣟⣷⢯⣟⡷⣯⡿⣽⣿⣟⣿⡇⢹⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⢣⠟⠺⠷⠯⣟⣷⣯⣟⣾⣟⡿⣾⣽⡿⣽⣿⣟⠾⠟⠛⢸⡆");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⢩⣴⣾⢿⣶⣶⣤⣑⣛⣿⠯⠿⠷⢯⣿⣛⣥⣴⣶⣶⣶⣸⡇");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣶⠹⢿⣆⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢸⠃⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣯⣧⡈⠙⠷⣦⣩⢧⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠏⣠⣸⠀⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣻⢶⣤⣤⣭⣟⣻⠿⣿⣿⣿⣿⢿⣟⣯⣵⣶⣿⣯⡏⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣯⢿⣽⣻⣿⠿⠿⠿⠷⠾⠶⠿⠿⠿⢿⣽⣾⣽⣿⠁⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣟⣯⣿⣷⣼⣉⣉⣩⡶⠩⠄⡈⢉⣵⣿⣿⣿⠃⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡻⣿⡿⣽⣧⡳⣕⢲⢒⠒⢆⡠⣲⣿⣿⣿⠏⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⢠⡞⠋⢳⡄⠀⠀⠀⠀⠀⠀⠀⢀⡇⠐⠝⠻⢯⣿⣷⣶⣶⣶⣶⣾⣿⠟⢻⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⢻⠀⠀⠀⠀⢀⣀⡤⢾⣇⠀⠈⠢⡀⠉⠉⠉⠉⠉⠛⠉⠀⠀⠸⡇⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⢧⠀⠀⢺⣀⣤⢖⣺⣭⣶⢾⡿⣿⣷⣤⡀⠈⠂⠄⡀⠀⠀⠀⠀⢀⣠⣶⣿⣷⣦⣤⣀⡀⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⢀⣠⣼⡇⢒⠁⢷⣾⢿⣽⣳⢯⡿⣽⣳⢯⡿⣿⣶⣦⣤⣠⣅⣠⣴⣶⣿⢿⣻⢿⡽⣯⣟⡿⣿⣿⣲⠦⣤⣀⣀⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⣠⡾⠿⠾⠽⠾⠤⠥⠬⢿⣟⡾⣽⢯⣟⡷⣯⢿⣽⣳⢯⣟⣿⡻⠏⢿⣯⢷⣯⣟⣯⢿⡽⣷⢯⣟⡷⣯⣟⡿⣶⣦⣭⡙⣳⢦⣀⠀");
-        System.out.println("⠀⠀⠀⢀⢟⣾⡏⠀⠀⠀⠀⠀⠀⢀⠈⣿⣻⣽⣻⢾⡽⣯⣟⡾⣽⣻⢾⠟⠁⠀⠈⠙⣿⢾⡽⣞⣿⡽⣯⣟⣾⣻⢷⣯⣟⡷⣯⡟⣱⡿⣷⣮⣳⡀⠀");
-        System.out.println("⠀⠀⠀⣸⣼⠋⠀⠀⠐⠒⠒⠒⠂⠒⠊⢿⣷⢯⣟⣯⣟⡷⣯⣟⣷⠟⠁⠀⠀⠀⠀⠀⠉⣿⣻⡽⣾⡽⣷⢯⣷⣻⣟⡾⣽⣻⡝⢰⣿⣽⣳⣟⣿⣿⡀⠀");
-        System.out.println("⠀⠀⠀⡇⣿⣇⠀⠀⢀⢀⢀⣀⣀⣐⣈⣸⡿⣯⣟⡾⣽⣻⢷⡻⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢟⣷⣻⡽⣟⣾⣳⢯⣟⣷⡟⢀⣿⡷⣯⣷⣻⢾⣿⢷⠀⠀⠀⠀");
-        System.out.println("⠀⠀⢸⣷⣿⣿⡀⠀⠁⠉⢉⡁⠀⠀⠈⣿⣟⡷⣯⣟⡷⡯⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣷⣻⣟⡾⣽⣯⣟⣾⠁⢸⣯⣟⡷⣯⣟⡿⣞⣿⡆⠀");
-        System.out.println("⠀⠀⢸⣿⣿⢻⡇⠀⠀⠂⠒⠒⠒⠒⢺⣿⡽⣯⢷⡯⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⣯⣟⣷⣻⢾⠃⠀⣾⣿⣽⣻⢷⣯⣟⣯⣟⣿⡄⠀⠀⠀");
-        System.out.println("⠀⠀⣼⣿⡟⠈⠧⠤⣤⣤⣤⣤⣤⠤⠞⣿⣿⣽⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢻⣾⣳⢯⡏⠀⡀⣿⣿⡾⣽⣻⢾⡽⣾⡽⣾⣿⣄⠀⠀");
-        System.out.println("⠀⢠⣟⣿⣀⣤⣴⡿⣿⢿⣆⠀⠀⠀⠀⣿⢘⡋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣽⡿⠀⢠⢰⣿⣟⣿⣯⣟⣯⣟⣷⣻⡽⣿⣿⣆⠀⠀⠀⠀");
-        System.out.println("⠀⣼⣿⠹⣿⣽⣳⣟⣿⣟⣿⣷⣄⠀⣼⣿⡾⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢙⡅⠀⠎⢸⣿⣟⡾⣷⣟⡾⣽⢾⣽⣻⢷⣻⣞⣷⡀");
-        System.out.println("⢀⣿⣿⡆⣿⣞⣷⣻⡿⣾⣟⣾⣿⢿⣿⣿⡿⣽⣻⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⣷⡘⠀⣾⣿⡿⣽⣻⢾⣟⣯⢿⡾⣽⢯⡿⣽⣿⣧⠀⠀");
+    public void onWin(WinEvent e) {
+        printOut.printOnWin();
+
 
         while (true) {
             turnRight(25);
@@ -278,45 +254,13 @@ public class PowerRanger extends AdvancedRobot {
 
         if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {            //om scannad robot har lika mycket energi som vi och vår energi inte är 0 eller 100...
             //...så känner vi en djup samhörighet med den.
-            System.out.println("We both have " + (int)getEnergy() + " energy, " + currentTarget.getName() + ", we are energy buddies!");
-            System.out.println("   ***     ***                   ***     ***                   ***     ***");
-            System.out.println(" **   ** **   **               **   ** **   **               **   ** **   **");
-            System.out.println("*       *       *             *       *       *             *       *       *");
-            System.out.println("*               *             *               *             *               *");
-            System.out.println(" *    LOVE     *               *     LOVE    *               *     LOVE    *");
-            System.out.println("  **         **   ***     ***   **         **   ***     ***   **         **");
-            System.out.println("    **     **   **   ** **   **   **     **   **   ** **   **   **     **");
-            System.out.println("      ** **    *       *       *    ** **    *       *       *    ** **");
-            System.out.println("        *      *               *      *      *               *      *");
-            System.out.println("                *   Buddies   *               *     LOVE    *");
-            System.out.println("   ***     ***   **         **   ***     ***   **         **   ***     ***");
-            System.out.println(" **   ** **   **   **     **   **   ** **   **   **     **   **   ** **   **");
-            System.out.println("*       *       *    ** **    *       *       *    ** **    *       *       *");
-            System.out.println("*               *      *      *   Energy      *      *      *               *");
-            System.out.println(" *     LOVE    *               *    buddies  *               *     LOVE    *");
-            System.out.println("  **         **   ***     ***   **         **   ***     ***   **         **");
-            System.out.println("    **     **   **   ** **   **   **     **   **   ** **   **   **     **");
-            System.out.println("      ** **    *       *       *    ** **    *       *       *    ** **");
-            System.out.println("        *      *               *      *      *    4-ever     *      *");
-            System.out.println("                *     LOVE    *               *             *");
-            System.out.println("                 **         **                 **         **");
-            System.out.println("                   **     **                     **     **");
-            System.out.println("                     ** **                         ** **");
-            System.out.println("                       *                             *");
+           printOut.printOnMadeABuddyForLife();
 
 
         }
     }
     public void onDeath(DeathEvent e) {
-        System.out.println("                               -|-");
-        System.out.println("                                |");
-        System.out.println("                            .-'~~~`-.");
-        System.out.println("                          .'         `.");
-        System.out.println("      ***                 |  R  I  P  |");
-        System.out.println("                          |PowerRanger|");
-        System.out.println("                          |           |");
-        System.out.println("                        \\\\|           |//");
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+        printOut.printOnDeath();
     }
 
 }

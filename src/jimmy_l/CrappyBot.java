@@ -49,23 +49,7 @@ public class CrappyBot extends AdvancedRobot{
             setAdjustRadarForGunTurn(true);
             setAdjustRadarForRobotTurn(true);
 
-            Thread paintThread = new Thread(new Robotable() {
-                public void run() {
 
-
-                                //Thread.sleep(100);
-                    try {
-                        setColor();
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-
-
-                }
-
-
-
-            });
         //paintThread.start();
 
 
