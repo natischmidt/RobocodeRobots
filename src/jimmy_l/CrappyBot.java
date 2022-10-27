@@ -23,6 +23,7 @@ public class CrappyBot extends AdvancedRobot{
     int moveDirection = 1;
     final boolean[] token = {true};
     int threadCount = 0;
+    boolean gameIsOver = false;
 
 
     public void run() {
@@ -47,22 +48,18 @@ public class CrappyBot extends AdvancedRobot{
             setAdjustGunForRobotTurn(true);
             setAdjustRadarForGunTurn(true);
             setAdjustRadarForRobotTurn(true);
-
-            Thread paintThread = new Thread(new Robotable() {
-                public void run() {
-                    synchronized (runThread) {
-                        while (runThread[0]) {
-                            try {
-                                //Thread.sleep(100);
-                                setColor();
-                            } catch (InterruptedException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
-                    }
-                }
-            });
-           // paintThread.start();
+//            Thread paintThread = new Thread(new Robotable() {
+//                public void run() {
+//                                //Thread.sleep(100);
+//                    try {
+//                        setColor();
+//                    } catch (InterruptedException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//
+//                }
+//            });
+        //paintThread.start();
 
 
             //execute();
@@ -102,6 +99,7 @@ public class CrappyBot extends AdvancedRobot{
         waitFor(new TurnCompleteCondition(this));
     }
     public void onHitWall(HitWallEvent e) {
+        setColor();
         reverseDirection();
     }
 
@@ -133,8 +131,8 @@ public class CrappyBot extends AdvancedRobot{
     }
     public void onScannedRobot(ScannedRobotEvent e) {
         synchronized(runThread) {
-            // Wake up threads! It's a new turn!
-            runThread.notifyAll();
+            setColor();
+
         }
         trackEnemy(e);
         //setColor();
@@ -186,10 +184,10 @@ public class CrappyBot extends AdvancedRobot{
 //    }
 
     // throws InterruptedException
-    public void setColor() throws InterruptedException {
+    public void setColor() {
 
-            for (int i = 0; i < 1000000; i++) {
-                Thread.sleep(100);
+            for (int i = 0; i < 10000; i++) {
+
                 setBodyColor(getRndColor());
                 setGunColor(getRndColor());
                 setRadarColor(getRndColor());
@@ -268,8 +266,7 @@ public class CrappyBot extends AdvancedRobot{
 
 
     public void onWin(WinEvent e) {
-        runThread[0] = false;
-
+        gameIsOver = true;
 
         while (true) {
             turnRight(25);
@@ -278,7 +275,7 @@ public class CrappyBot extends AdvancedRobot{
 
     }
     public void onDeath(DeathEvent e) {
-        runThread[0] = false;
+        gameIsOver = true;
         System.out.println("                               -|-");
         System.out.println("                                |");
         System.out.println("                            .-'~~~`-.");
@@ -292,8 +289,7 @@ public class CrappyBot extends AdvancedRobot{
 
     @Override
     public void onBattleEnded(BattleEndedEvent e) {
-        runThread[0] = false;
-
+        gameIsOver = true;
 
     }
 
