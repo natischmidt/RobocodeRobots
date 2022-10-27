@@ -280,5 +280,16 @@ public class PowerRanger extends AdvancedRobot {
 
         }
     }
+    public void onDeath(DeathEvent e) {
+        System.out.println("                               -|-");
+        System.out.println("                                |");
+        System.out.println("                            .-'~~~`-.");
+        System.out.println("                          .'         `.");
+        System.out.println("      ***                 |  R  I  P  |");
+        System.out.println("                          |PowerRanger|");
+        System.out.println("                          |           |");
+        System.out.println("                        \\\\|           |//");
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
+    }
 
 }

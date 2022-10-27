@@ -22,10 +22,15 @@ public class CrappyBot extends AdvancedRobot{
     int turnDirection = 1;
     int moveDirection = 1;
     final boolean[] token = {true};
-
+    int threadCount = 0;
     boolean gameIsOver = false;
+
+
     public void run() {
         boolean start = true;
+
+
+
 
         addCustomEvent(new Condition("energyBuddies") {
             public boolean test() {
@@ -33,25 +38,74 @@ public class CrappyBot extends AdvancedRobot{
             }
         });
 
+//        addCustomEvent(new Condition("crazyColors") {
+//            public boolean test() {
+//                return (true);
+//            }
+//        });
+
         while (true) {
             setAdjustGunForRobotTurn(true);
             setAdjustRadarForGunTurn(true);
             setAdjustRadarForRobotTurn(true);
+
+            Thread paintThread = new Thread(new Robotable() {
+                public void run() {
+
+
+                                //Thread.sleep(100);
+                    try {
+                        setColor();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+
+
+                }
+
+
+
+            });
+        //paintThread.start();
+
+
+            //execute();
+
+//            if (getOthers() == 1) {
+//                try {
+//                    paintThread.join();
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//            if (getTime() % 2 == 0) {
+//                    setColor();
+//                }
+
+//            addCustomEvent(new Condition("crazyColors") {
+//                public boolean test() {
+//                    return (true);
+//                }
+//            });
             setTurnRadarRight(100000);
+            //avoidWalls();
+            //moveDirection = avoidWalls();
+
             ahead(moveDirection * 2000);
+
             movingForward = true;
+            // Tell the game we will want to turn right 90
             setTurnRight(180);
             execute();
 
         }
     }
-//
-//    public void ahead(int direction) {
-//        setAhead(2000 * direction);
-//        waitFor(new TurnCompleteCondition(this));
-//    }
+
+    public void ahead(int direction) {
+        setAhead(2000 * direction);
+        waitFor(new TurnCompleteCondition(this));
+    }
     public void onHitWall(HitWallEvent e) {
-        setColor();
         reverseDirection();
     }
 
@@ -83,11 +137,11 @@ public class CrappyBot extends AdvancedRobot{
     }
     public void onScannedRobot(ScannedRobotEvent e) {
         synchronized(runThread) {
-            setColor();
-
+            // Wake up threads! It's a new turn!
+            runThread.notifyAll();
         }
         trackEnemy(e);
-
+        //setColor();
 
 
         if (currentTarget.getEnergy() == 0) {
@@ -112,7 +166,11 @@ public class CrappyBot extends AdvancedRobot{
                 haveAlreadyGotAnEnergyBuddy = true;
         }
    }
-
+//        if (e.getCondition().getName().equals("crazyColors")) {
+//
+//            setColor();
+//
+//            }
     }
 
     public void onHitRobot(HitRobotEvent e) {
@@ -122,10 +180,20 @@ public class CrappyBot extends AdvancedRobot{
         }
     }
 
-    public void setColor() {
+//    public void setColor() {
+//        // Set colors
+//        setBodyColor(getRndColor());
+//        setGunColor(getRndColor());
+//        setRadarColor(getRndColor());
+//        setBulletColor(getRndColor());
+//        setScanColor(getRndColor());
+//    }
+
+    // throws InterruptedException
+    public void setColor() throws InterruptedException {
 
             for (int i = 0; i < 10000; i++) {
-
+                Thread.sleep(100);
                 setBodyColor(getRndColor());
                 setGunColor(getRndColor());
                 setRadarColor(getRndColor());
