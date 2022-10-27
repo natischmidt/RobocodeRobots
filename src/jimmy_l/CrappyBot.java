@@ -62,7 +62,7 @@ public class CrappyBot extends AdvancedRobot{
                     }
                 }
             });
-            paintThread.start();
+           // paintThread.start();
 
 
             //execute();
