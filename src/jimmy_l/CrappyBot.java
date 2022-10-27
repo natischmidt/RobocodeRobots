@@ -2,12 +2,13 @@ package jimmy_l;
 
 import jimmy_b.EnemyBot;
 import robocode.*;
-import robocode.util.Utils;
 import java.awt.*;
+import java.util.Random;
+
 
 public class CrappyBot extends AdvancedRobot{
-    private EnemyBot currentTarget = new EnemyBot();
 
+    private EnemyBot currentTarget = new EnemyBot();
     boolean movingForward;
     public static double _oppEnergy = 100.0;
     boolean haveAlreadyGotAnEnergyBuddy = false;
@@ -17,29 +18,18 @@ public class CrappyBot extends AdvancedRobot{
     int redCounter = 1;
     int greenCounter = 90;
     int blueCounter = 180;
-    boolean turnOffThread = false;
+    boolean[] runThread = {true};
     int turnDirection = 1;
     int moveDirection = 1;
+    final boolean[] token = {true};
+    int threadCount = 0;
 
-    AdvancedRobot rbt = new AdvancedRobot();
 
     public void run() {
-
-//        Thread paintThread = new Thread(new Robotable() {
-//            public void run() {
-//                try {
-//                    setColor();
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        });
+        boolean start = true;
 
 
-//        if (getOthers() > 1) {
-//            paintThread.interrupt();
-//
-//        }
+
 
         addCustomEvent(new Condition("energyBuddies") {
             public boolean test() {
@@ -57,6 +47,26 @@ public class CrappyBot extends AdvancedRobot{
             setAdjustGunForRobotTurn(true);
             setAdjustRadarForGunTurn(true);
             setAdjustRadarForRobotTurn(true);
+
+            Thread paintThread = new Thread(new Robotable() {
+                public void run() {
+                    synchronized (runThread) {
+                        while (runThread[0]) {
+                            try {
+                                //Thread.sleep(100);
+                                setColor();
+                            } catch (InterruptedException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    }
+                }
+            });
+            paintThread.start();
+
+
+            //execute();
+
 //            if (getOthers() == 1) {
 //                try {
 //                    paintThread.join();
@@ -122,7 +132,13 @@ public class CrappyBot extends AdvancedRobot{
         }
     }
     public void onScannedRobot(ScannedRobotEvent e) {
+        synchronized(runThread) {
+            // Wake up threads! It's a new turn!
+            runThread.notifyAll();
+        }
         trackEnemy(e);
+        //setColor();
+
 
         if (currentTarget.getEnergy() == 0) {
             if (e.getBearing() >= 0) {
@@ -170,17 +186,27 @@ public class CrappyBot extends AdvancedRobot{
 //    }
 
     // throws InterruptedException
-    public void setColor() throws InterruptedException{
-            for (int i = 0; getOthers() > 1; i++) {
-                System.out.println(i);
-                setBodyColor(getCrazyColor());
-                setGunColor(getCrazyColor());
-                setRadarColor(getCrazyColor());
-                setBulletColor(getCrazyColor());
-                setScanColor(getCrazyColor());
+    public void setColor() throws InterruptedException {
+
+            for (int i = 0; i < 1000000; i++) {
+                Thread.sleep(100);
+                setBodyColor(getRndColor());
+                setGunColor(getRndColor());
+                setRadarColor(getRndColor());
+                setBulletColor(getRndColor());
+                setScanColor(getRndColor());
+
             }
-           // CrappyBot.paintThread.interrupt();
+
         }
+    public Color getRndColor() {													//returnerar randomiserade värden 0-255
+        Random random = new Random();
+        int red = random.nextInt(255);
+        int green = random.nextInt(255);
+        int blue = random.nextInt(255);
+
+        return new Color(red, green, blue);
+    }
 
     public Color getCrazyColor() {
         //int red;
@@ -242,6 +268,9 @@ public class CrappyBot extends AdvancedRobot{
 
 
     public void onWin(WinEvent e) {
+        runThread[0] = false;
+
+
         while (true) {
             turnRight(25);
             turnRight(-25);
@@ -249,6 +278,7 @@ public class CrappyBot extends AdvancedRobot{
 
     }
     public void onDeath(DeathEvent e) {
+        runThread[0] = false;
         System.out.println("                               -|-");
         System.out.println("                                |");
         System.out.println("                            .-'~~~`-.");
@@ -259,6 +289,14 @@ public class CrappyBot extends AdvancedRobot{
         System.out.println("                        \\\\|           |//");
         System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
     }
+
+    @Override
+    public void onBattleEnded(BattleEndedEvent e) {
+        runThread[0] = false;
+
+
+    }
+
     public void energyBuddies (double energy, String name) {
 
         if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {
