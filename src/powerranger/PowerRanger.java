@@ -37,7 +37,7 @@ public class PowerRanger extends AdvancedRobot {
 
         addCustomEvent(new Condition("energyBuddies") {                                 //lägger till ett mycket viktigt och nödvändigt custom event.
             public boolean test() {
-                return (currentTarget.getEnergy() == getEnergy());                             //om vi har lika mycket energi som vårt target...
+                return (currentTarget.getEnergy() == getEnergy());                             //returnerar true om vi har lika mycket energi som vårt target
             }
         });
 
@@ -187,8 +187,6 @@ public class PowerRanger extends AdvancedRobot {
     }
     public void onWin(WinEvent e) {
         PrintOut.printOnWin();
-
-
         while (true) {
             turnRight(25);
             turnRight(-25);
@@ -227,7 +225,7 @@ public class PowerRanger extends AdvancedRobot {
         }
     }
     public void setColor() {                                                        //anropar getRndColor för att sätta ny färg
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 100; i++) {
 
             setBodyColor(getRndColor());
             setGunColor(getRndColor());

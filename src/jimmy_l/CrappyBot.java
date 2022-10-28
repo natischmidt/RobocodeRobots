@@ -173,7 +173,7 @@ public class CrappyBot extends AdvancedRobot{
     // throws InterruptedException
     public void setColor() {
 
-            for (int i = 0; i < 10000; i++) {
+            for (int i = 0; i < 100; i++) {
 
                 setBodyColor(getRndColor());
                 setGunColor(getRndColor());
@@ -287,7 +287,7 @@ public class CrappyBot extends AdvancedRobot{
 
     public void energyBuddies (double energy, String name) {
 
-        if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {
+        if (getEnergy() != 100 && getEnergy() != 0.0) {
             System.out.println("We both have " + (int)getEnergy() + " energy, " + currentTarget.getName() + ", we are energy buddies!");
             System.out.println("   ***     ***                   ***     ***                   ***     ***");
             System.out.println(" **   ** **   **               **   ** **   **               **   ** **   **");
