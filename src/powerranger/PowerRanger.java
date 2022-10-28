@@ -42,7 +42,7 @@ public class PowerRanger extends AdvancedRobot {
                 return ((int)currentTarget.getEnergy() == (int)getEnergy());                             //returnerar true om vi har lika mycket energi som vårt target
             }
         });
-
+        setRadarColor(Color.white);
         setGunColor(Color.WHITE);
         setAdjustRadarForGunTurn(true);
         setAdjustGunForRobotTurn(true);
@@ -234,18 +234,16 @@ public void PowerRangers(){
         int who = random.nextInt(5);
     if (getTime() % 40 == 0) {
     switch (who) {
-        case 0 -> setBodyColor(Color.red);
-        case 1 -> setBodyColor(Color.green);
-        case 2 -> setBodyColor(Color.blue);
-        case 3 -> setBodyColor(Color.yellow);
-        case 4 -> setBodyColor(Color.pink);
+        case 0 -> setBodyColor(new Color(77,255,77));
+        case 1 -> setBodyColor(Color.red);
+        case 2 -> setBodyColor(new Color (0,0,153));
+        case 3 -> setBodyColor(new Color(255,255,102));
+        case 4 -> setBodyColor(new Color(255,77,196));
         case 5 -> setBodyColor(Color.black);
         default -> setBodyColor(Color.BLACK);
     }}
 
 }
-
-
     public void energyBuddies (double energy) {
 
         if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {            //om scannad robot har lika mycket energi som vi och vår energi inte är 0 eller 100...
