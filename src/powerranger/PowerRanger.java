@@ -1,6 +1,5 @@
 package powerranger;
 
-import net.sf.robocode.battle.Battle;
 import robocode.AdvancedRobot;
 import robocode.BulletHitEvent;
 import robocode.ScannedRobotEvent;
@@ -12,16 +11,19 @@ import java.util.Random;
 public class PowerRanger extends AdvancedRobot {
     EnemyBot currentTarget = new EnemyBot();
 
-    // För statistiken i slutet av rundan
-    double totalBulletShot = 0;
-    double totalBulletHit = 0;
-    double totalBulletMiss = 0;
+    // För statistiken i slutet av rundan/battle
+    double currentRoundBulletShot;
+    double currentRoundBulletHit;
+    double currentRoundBulletMiss;
+    static double totalBulletShot;
+    static double totalBulletHit;
+    static double totalBulletMiss;
 
     // Data för att ändra strategi vid 1 vs 1
-    boolean strafing = false;
+    boolean isStrafing = false;
     double bulletMiss;
     double bulletHit;
-    byte moveDirectionWhileStrafing = 1;
+    byte moveDirection = 1;
 
     double bulletPower = 1;
 
@@ -52,11 +54,11 @@ public class PowerRanger extends AdvancedRobot {
             if(currentTarget.none())
                 setTurnRadarRight(Double.POSITIVE_INFINITY);
 
-            //Ifall endast en fiende är kvar och vi har mindre än 20 energi, eller...
+            // Ifall endast en fiende är kvar och vi har mindre än 20 i energi, eller...
             if (getOthers() == 1 && (getEnergy() < 20 ||
-                    //vi har missad mer än 10 skott och missat mer än vad vi har träffat
+                    //vvi har missad mer än 10 skott och missat mer än vad vi har träffat
                     bulletMiss > bulletHit && bulletMiss > 10)){
-                strafing = true;
+                isStrafing = true;
                 strafeEnemy();
             }
             else {
@@ -104,7 +106,7 @@ public class PowerRanger extends AdvancedRobot {
         double radarTurn = absBearing - getRadarHeadingRadians();
 
         //Vill kalla den här ifrån också
-        if(!strafing)
+        if(!isStrafing)
             DodgeMovment();
 
         // Beräkna firepower
@@ -129,9 +131,9 @@ public class PowerRanger extends AdvancedRobot {
         }
         // Strafe...
         setTurnRight(currentTarget.getBearing() + 90);
-        setAhead(100 * moveDirectionWhileStrafing);
+        setAhead(100 * moveDirection);
         if (getTime() % 30 == 0)
-            moveDirectionWhileStrafing *= -1;
+            moveDirection *= -1;
     }
     private void smartFire() {
         if (getGunHeat() == 0 && Math.abs(getGunTurnRemaining()) < 20) {
@@ -139,13 +141,13 @@ public class PowerRanger extends AdvancedRobot {
             if (currentTarget.getVelocity() == 0)
                 bulletPower = 3;
             else
-                // Juste firepower till avståndet till vår target, eller...
+                // Justera firepower efter avståndet till vår target, eller...
                 bulletPower = (Math.min(Math.min(500 / currentTarget.getDistance(), 3),
                         // skjut med minsta möjliga kraft för att döda
                         (currentTarget.getEnergy() / 4)));
-
             setFire(bulletPower);
             totalBulletShot++;
+            currentRoundBulletShot++;
         }
     }
 
@@ -165,9 +167,9 @@ public class PowerRanger extends AdvancedRobot {
     }
 
     public void onRobotDeath(RobotDeathEvent e) {
-        // if the enemy we were tracking died...
+        // om vår target har dött...
         if (e.getName().equals(currentTarget.getName())) {
-            // clear tracking-info, so we can track another robot
+            // rensa datan, så att vi kan få en ny måltavla!
             currentTarget.reset();
         }
     }
@@ -182,12 +184,14 @@ public class PowerRanger extends AdvancedRobot {
 
     public void onBulletHit(BulletHitEvent e) {
         totalBulletHit++;
+        currentRoundBulletHit++;
         if(getOthers() == 1)
             bulletHit++;
     }
 
     public void onBulletMissed(BulletMissedEvent event) {
         totalBulletMiss++;
+        currentRoundBulletMiss++;
         if(getOthers() == 1)
             bulletMiss++;
     }
@@ -211,12 +215,21 @@ public class PowerRanger extends AdvancedRobot {
 
         }
     }
-    public void onBattleEnded(BattleEndedEvent event) {
-        out.print("________________GAME OVER ________________________");
-        out.println("\nShots:" + totalBulletShot);
-        out.println("Hits:" + totalBulletHit);
-        out.println("Misses:" + totalBulletMiss);
-        out.println("Accuracy:" + (totalBulletHit / totalBulletShot));
+    @Override
+    public void onRoundEnded(RoundEndedEvent event) {
+        out.println("\n________________Round " + (getRoundNum() + 1) + "________________");
+        out.println("\nShots: " + (int) currentRoundBulletShot);
+        out.println("Hits: " + (int) currentRoundBulletHit);
+        out.println("Misses: " + (int) currentRoundBulletMiss);
+        out.println("Accuracy: " + Math.round((currentRoundBulletHit / currentRoundBulletShot) * 100) + " %");
+
+        if(getRoundNum() == getNumRounds() - 1){
+            out.println("\n________________GAME OVER________________");
+            out.println("\nTotal shots: " + (int) totalBulletShot);
+            out.println("Total hits: " + (int) totalBulletHit);
+            out.println("Total misses: " + (int) totalBulletMiss);
+            out.println("Accuracy: " + Math.round((totalBulletHit / totalBulletShot) * 100) + " %");
+        }
     }
 
     public void setColor() {                                                        //anropar getRndColor för att sätta ny färg
