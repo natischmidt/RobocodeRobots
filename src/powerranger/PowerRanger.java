@@ -175,11 +175,6 @@ public class PowerRanger extends AdvancedRobot {
     }
     public void onWin(WinEvent e) {
         PrintOut.printOnWin();
-        while (true) {
-            turnRight(25);
-            turnRight(-25);
-        }
-
     }
 
     public void onBulletHit(BulletHitEvent e) {
@@ -222,14 +217,15 @@ public class PowerRanger extends AdvancedRobot {
         out.println("Hits: " + (int) currentRoundBulletHit);
         out.println("Misses: " + (int) currentRoundBulletMiss);
         out.println("Accuracy: " + Math.round((currentRoundBulletHit / currentRoundBulletShot) * 100) + " %");
+    }
 
-        if(getRoundNum() == getNumRounds() - 1){
-            out.println("\n________________GAME OVER________________");
-            out.println("\nTotal shots: " + (int) totalBulletShot);
-            out.println("Total hits: " + (int) totalBulletHit);
-            out.println("Total misses: " + (int) totalBulletMiss);
-            out.println("Accuracy: " + Math.round((totalBulletHit / totalBulletShot) * 100) + " %");
-        }
+    @Override
+    public void onBattleEnded(BattleEndedEvent event) {
+        out.println("\n________________GAME OVER________________");
+        out.println("\nTotal shots: " + (int) totalBulletShot);
+        out.println("Total hits: " + (int) totalBulletHit);
+        out.println("Total misses: " + (int) totalBulletMiss);
+        out.println("Accuracy: " + Math.round((totalBulletHit / totalBulletShot) * 100) + " %");
     }
 
     public void setColor() {                                                        //anropar getRndColor för att sätta ny färg
