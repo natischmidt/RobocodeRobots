@@ -1,5 +1,6 @@
 package powerranger;
 
+import net.sf.robocode.battle.Battle;
 import robocode.AdvancedRobot;
 import robocode.BulletHitEvent;
 import robocode.ScannedRobotEvent;
@@ -28,6 +29,7 @@ public class PowerRanger extends AdvancedRobot {
     // Data för att bli mindre förutsägbar när vi rör oss längst med väggarna
     double rand = 8;
     int timeToStop = 65;
+    int distansToWall = 28;
 
     boolean haveAlreadyGotAnEnergyBuddy = false;
 
@@ -66,13 +68,27 @@ public class PowerRanger extends AdvancedRobot {
         }
     }
 
+    public void initialize() {
+        // Let the robot body, gun, and radar turn independently of each other
+        setAdjustRadarForGunTurn(true);
+        setAdjustGunForRobotTurn(true);
+
+        // Set robot colors
+        setBodyColor(new Color(23,23,23));
+        setGunColor(new Color(255,8,0));
+        setRadarColor(new Color(253,88,0));
+        setBulletColor(new Color(23,23,23));
+        setScanColor(new Color(0,255,255));
+
+    }
+
     public void WallMovement(){
         //Räknar ut hur jag ska åka längst väggarna
         if (Utils.isNear(getHeadingRadians(), 0D) || Utils.isNear(getHeadingRadians(), Math.PI)) {      //Utils.isNear returnerar true om differensen mellan de två argumenten är mindre än 1.0E-5, dvs 0.000010. I praktiken samma som == .Här betyder det true om vi är på väg (nästan) rakt norrut, eller (nästan) rakt söderut
-            ahead((Math.max(getBattleFieldHeight() - getY(), getY()) - 28));              //variabeln dir är alltid 1, men vi sparar den för nu, ifall vi vill använda den för att byta riktning.
-            //framåt (slagfältets höjd - vår y position) eller (vår y position - 28)
+            ahead((Math.max(getBattleFieldHeight() - getY(), getY()) - distansToWall) * 1);              //variabeln dir är alltid 1, men vi sparar den för nu, ifall vi vill använda den för att byta riktning.
+            //framåt (slagfältets höjd - vår y position) eller (vår y position - distansToWall)
         } else {
-            ahead((Math.max(getBattleFieldWidth() - getX(), getX()) - 28));
+            ahead((Math.max(getBattleFieldWidth() - getX(), getX()) - distansToWall) * -1);
         }
         turnRight(90);
     }
@@ -91,13 +107,9 @@ public class PowerRanger extends AdvancedRobot {
             }
         }
     }
-    public void onRoundEnded(RoundEndedEvent event) {
-        Stats();
-    }
+
 
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
-
-
         trackEnemy(scannedRobot);
         setColor();                             //bli schnygg
 
@@ -195,14 +207,6 @@ public class PowerRanger extends AdvancedRobot {
             bulletMiss++;
     }
 
-    private void Stats() {
-        out.print("________________Round ended_________________________");
-        out.println("\nShots:" + totalBulletShot);
-        out.println("Hits:" + totalBulletHit);
-        out.println("Misses:" + totalBulletMiss);
-        out.println("Accuracy:" + (totalBulletHit / totalBulletShot));
-    }
-
     public void onCustomEvent(CustomEvent e) {
 
         if (e.getCondition().getName().equals("energyBuddies")) {
@@ -214,6 +218,14 @@ public class PowerRanger extends AdvancedRobot {
 
         }
     }
+    public void onBattleEnded(BattleEndedEvent event) {
+        out.print("________________GAME OVER ________________________");
+        out.println("\nShots:" + totalBulletShot);
+        out.println("Hits:" + totalBulletHit);
+        out.println("Misses:" + totalBulletMiss);
+        out.println("Accuracy:" + (totalBulletHit / totalBulletShot));
+    }
+
     public void setColor() {                                                        //anropar getRndColor för att sätta ny färg
         for (int i = 0; i < 100; i++) {
 
