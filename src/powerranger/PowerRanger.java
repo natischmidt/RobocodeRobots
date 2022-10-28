@@ -68,19 +68,6 @@ public class PowerRanger extends AdvancedRobot {
         }
     }
 
-    public void initialize() {
-        // Let the robot body, gun, and radar turn independently of each other
-        setAdjustRadarForGunTurn(true);
-        setAdjustGunForRobotTurn(true);
-
-        // Set robot colors
-        setBodyColor(new Color(23,23,23));
-        setGunColor(new Color(255,8,0));
-        setRadarColor(new Color(253,88,0));
-        setBulletColor(new Color(23,23,23));
-        setScanColor(new Color(0,255,255));
-
-    }
 
     public void WallMovement(){
         //Räknar ut hur jag ska åka längst väggarna
