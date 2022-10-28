@@ -228,6 +228,7 @@ public class PowerRanger extends AdvancedRobot {
         out.println("Accuracy: " + Math.round((totalBulletHit / totalBulletShot) * 100) + " %");
     }
 
+
     public void setColor() {                                                        //anropar getRndColor för att sätta ny färg
         for (int i = 0; i < 100; i++) {
 

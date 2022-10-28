@@ -4,13 +4,13 @@ import robocode.util.Utils;
 import java.awt.*;
 
 public class Calculon extends AdvancedRobot{
+
     private EnemyBot currentTarget = new EnemyBot();
     double moveAmount;
     boolean peek;
-    double shotBullet = 0;
-    double hitEnemybyBullet = 0;
-    double gothitbyBullet = 0;
-    double missedBullet = 0;
+    static double BulletsShot;
+    static double hitEnemybyBullet;
+    static double missedBullet;
     private byte moveDirection = 1;
 
 
@@ -65,7 +65,6 @@ public class Calculon extends AdvancedRobot{
     }
     public void onScannedRobot(ScannedRobotEvent e) {
         trackEnemy(e);
-        if (getOthers() == 1){ strafeEnemy();}
         //Graderna mot fienden
         double angletoEnemy= getHeadingRadians() + e.getBearingRadians();
         // detta minus nuvarande grader av radar heading som behövs för att vända, och normalize detta
@@ -103,23 +102,6 @@ public class Calculon extends AdvancedRobot{
         hitEnemybyBullet++;
     }
 
-    private void strafeEnemy() {
-        if (currentTarget.getDistance() < 200) {
-            // Back a little...
-            setTurnRight(currentTarget.getBearing());
-            setBack(200 - currentTarget.getDistance());
-        } else if (currentTarget.getDistance() > 500) {
-            // Get closer...
-            setTurnRight(currentTarget.getBearing());
-            setAhead(currentTarget.getDistance() - 200);
-        }
-        // Strafe...
-        setTurnRight(currentTarget.getBearing() + 90);
-        setAhead(100 * moveDirection);
-        if (getTime() % 30 == 0)
-            moveDirection *= -1;
-    }
-
     public void onBulletMissed(BulletMissedEvent event) {
         missedBullet++;
     }
@@ -135,16 +117,17 @@ public class Calculon extends AdvancedRobot{
                     setFire(Math.min(Math.min(500 / currentTarget.getDistance(), 3),
                             // shoot with the least amount of bullet power to kill off the target!
                             (currentTarget.getEnergy() / 4)));
+                BulletsShot++;
             }
         }
 
-    public void onRoundEnded(RoundEndedEvent event) {
-        out.print("_______Round ended________");
-        out.println("\nShots:" + shotBullet);
-        out.println("Misses:" + missedBullet);
-        out.println("Hit by Enemy:" + gothitbyBullet);
-        out.println("Accuracy:" + (hitEnemybyBullet/ shotBullet));
-
+    @Override
+    public void onBattleEnded(BattleEndedEvent event) {
+        out.println("\n________________GAME OVER________________");
+        out.println("\nTotal shots: " + (int) BulletsShot);
+        out.println("Total hits: " + (int) hitEnemybyBullet);
+        out.println("Total misses: " + (int)  missedBullet);
+        out.println("Accuracy: " + Math.round((hitEnemybyBullet / BulletsShot) * 100) + " %");
     }
 
 }
