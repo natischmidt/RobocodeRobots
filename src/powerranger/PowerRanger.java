@@ -246,14 +246,13 @@ public class PowerRanger extends AdvancedRobot {
         return new Color(red, green, blue);
     }
 
-
-
-
     public void energyBuddies (double energy, String name) {
 
         if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {            //om scannad robot har lika mycket energi som vi och vår energi inte är 0 eller 100...
             //...så känner vi en djup samhörighet med den.
-           PrintOut.printOnMadeABuddyForLife();
+            System.out.println("We both have " + (int)getEnergy() + " energy, " + currentTarget.getName() + ", we are energy buddies!");
+
+            PrintOut.printOnMadeABuddyForLife();
 
 
         }

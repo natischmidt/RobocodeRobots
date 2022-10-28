@@ -5,7 +5,6 @@ import robocode.*;
 import java.awt.*;
 import java.util.Random;
 
-
 public class CrappyBot extends AdvancedRobot{
 
     private EnemyBot currentTarget = new EnemyBot();
@@ -29,6 +28,7 @@ public class CrappyBot extends AdvancedRobot{
     public void run() {
         boolean start = true;
 
+        System.out.println("test test test");
 
 
 
@@ -256,33 +256,7 @@ public class CrappyBot extends AdvancedRobot{
 
 
     public void onWin(WinEvent e) {
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀ ⠀⠀⠀⠀⠀⠀    ⠀⠀⠀⠀⠀⠀⢀⣀⠤⠤⢴⣖⠲⠶⠤⢄⣀⠀⠀⠀⠀⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⠤⠞⣩⣴⠚⢿⣟⣿⣻⣟⡿⣶⣬⣉⡒⠦⣄⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⣹⣯⣻⡿⣿⣷⣌⣿⣞⡷⣯⣟⡷⣯⣿⡿⣿⣄⣳⠀⠀⠀⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣧⣾⣯⣿⣽⡿⣾⣟⡷⣯⣟⡷⣯⣟⣷⡿⣟⣿⣽⡟⡆");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡜⣾⣿⣻⣟⡾⣽⣳⢿⣟⣷⢯⣟⡷⣯⡿⣽⣿⣟⣿⡇⢹⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⢣⠟⠺⠷⠯⣟⣷⣯⣟⣾⣟⡿⣾⣽⡿⣽⣿⣟⠾⠟⠛⢸⡆");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣼⢩⣴⣾⢿⣶⣶⣤⣑⣛⣿⠯⠿⠷⢯⣿⣛⣥⣴⣶⣶⣶⣸⡇");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣶⠹⢿⣆⠈⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢸⠃⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣯⣧⡈⠙⠷⣦⣩⢧⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠏⣠⣸⠀⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣻⢶⣤⣤⣭⣟⣻⠿⣿⣿⣿⣿⢿⣟⣯⣵⣶⣿⣯⡏⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣯⢿⣽⣻⣿⠿⠿⠿⠷⠾⠶⠿⠿⠿⢿⣽⣾⣽⣿⠁⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣟⣯⣿⣷⣼⣉⣉⣩⡶⠩⠄⡈⢉⣵⣿⣿⣿⠃⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⡻⣿⡿⣽⣧⡳⣕⢲⢒⠒⢆⡠⣲⣿⣿⣿⠏⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⢠⡞⠋⢳⡄⠀⠀⠀⠀⠀⠀⠀⢀⡇⠐⠝⠻⢯⣿⣷⣶⣶⣶⣶⣾⣿⠟⢻⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⢻⠀⠀⠀⠀⢀⣀⡤⢾⣇⠀⠈⠢⡀⠉⠉⠉⠉⠉⠛⠉⠀⠀⠸⡇⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⠀⠀⢧⠀⠀⢺⣀⣤⢖⣺⣭⣶⢾⡿⣿⣷⣤⡀⠈⠂⠄⡀⠀⠀⠀⠀⢀⣠⣶⣿⣷⣦⣤⣀⡀⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⠀⠀⢀⣠⣼⡇⢒⠁⢷⣾⢿⣽⣳⢯⡿⣽⣳⢯⡿⣿⣶⣦⣤⣠⣅⣠⣴⣶⣿⢿⣻⢿⡽⣯⣟⡿⣿⣿⣲⠦⣤⣀⣀⠀⠀");
-        System.out.println("⠀⠀⠀⠀⠀⣠⡾⠿⠾⠽⠾⠤⠥⠬⢿⣟⡾⣽⢯⣟⡷⣯⢿⣽⣳⢯⣟⣿⡻⠏⢿⣯⢷⣯⣟⣯⢿⡽⣷⢯⣟⡷⣯⣟⡿⣶⣦⣭⡙⣳⢦⣀⠀");
-        System.out.println("⠀⠀⠀⢀⢟⣾⡏⠀⠀⠀⠀⠀⠀⢀⠈⣿⣻⣽⣻⢾⡽⣯⣟⡾⣽⣻⢾⠟⠁⠀⠈⠙⣿⢾⡽⣞⣿⡽⣯⣟⣾⣻⢷⣯⣟⡷⣯⡟⣱⡿⣷⣮⣳⡀⠀");
-        System.out.println("⠀⠀⠀⣸⣼⠋⠀⠀⠐⠒⠒⠒⠂⠒⠊⢿⣷⢯⣟⣯⣟⡷⣯⣟⣷⠟⠁⠀⠀⠀⠀⠀⠉⣿⣻⡽⣾⡽⣷⢯⣷⣻⣟⡾⣽⣻⡝⢰⣿⣽⣳⣟⣿⣿⡀⠀");
-        System.out.println("⠀⠀⠀⡇⣿⣇⠀⠀⢀⢀⢀⣀⣀⣐⣈⣸⡿⣯⣟⡾⣽⣻⢷⡻⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢟⣷⣻⡽⣟⣾⣳⢯⣟⣷⡟⢀⣿⡷⣯⣷⣻⢾⣿⢷⠀⠀⠀⠀");
-        System.out.println("⠀⠀⢸⣷⣿⣿⡀⠀⠁⠉⢉⡁⠀⠀⠈⣿⣟⡷⣯⣟⡷⡯⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠻⣷⣻⣟⡾⣽⣯⣟⣾⠁⢸⣯⣟⡷⣯⣟⡿⣞⣿⡆⠀");
-        System.out.println("⠀⠀⢸⣿⣿⢻⡇⠀⠀⠂⠒⠒⠒⠒⢺⣿⡽⣯⢷⡯⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢷⣯⣟⣷⣻⢾⠃⠀⣾⣿⣽⣻⢷⣯⣟⣯⣟⣿⡄⠀⠀⠀");
-        System.out.println("⠀⠀⣼⣿⡟⠈⠧⠤⣤⣤⣤⣤⣤⠤⠞⣿⣿⣽⠟⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢻⣾⣳⢯⡏⠀⡀⣿⣿⡾⣽⣻⢾⡽⣾⡽⣾⣿⣄⠀⠀");
-        System.out.println("⠀⢠⣟⣿⣀⣤⣴⡿⣿⢿⣆⠀⠀⠀⠀⣿⢘⡋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣽⡿⠀⢠⢰⣿⣟⣿⣯⣟⣯⣟⣷⣻⡽⣿⣿⣆⠀⠀⠀⠀");
-        System.out.println("⠀⣼⣿⠹⣿⣽⣳⣟⣿⣟⣿⣷⣄⠀⣼⣿⡾⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢙⡅⠀⠎⢸⣿⣟⡾⣷⣟⡾⣽⢾⣽⣻⢷⣻⣞⣷⡀");
-        System.out.println("⢀⣿⣿⡆⣿⣞⣷⣻⡿⣾⣟⣾⣿⢿⣿⣿⡿⣽⣻⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣿⣷⡘⠀⣾⣿⡿⣽⣻⢾⣟⣯⢿⡾⣽⢯⡿⣽⣿⣧⠀⠀");
+        Robotable.printOnWin();
 
 
         while (true) {
@@ -293,6 +267,9 @@ public class CrappyBot extends AdvancedRobot{
     }
     public void onDeath(DeathEvent e) {
         gameIsOver = true;
+
+
+
         System.out.println("                               -|-");
         System.out.println("                                |");
         System.out.println("                            .-'~~~`-.");
@@ -307,6 +284,7 @@ public class CrappyBot extends AdvancedRobot{
     @Override
     public void onBattleEnded(BattleEndedEvent e) {
         gameIsOver = true;
+
 
     }
 

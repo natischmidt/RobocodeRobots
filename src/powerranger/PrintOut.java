@@ -37,7 +37,7 @@ public class PrintOut {
         System.out.println("                                |");
         System.out.println("                            .-'~~~`-.");
         System.out.println("                          .'         `.");
-        System.out.println("      ***                 |  R  I  P  |");
+        System.out.println("                          |  R  I  P  |");
         System.out.println("                          |PowerRanger|");
         System.out.println("                          |           |");
         System.out.println("                        \\\\|           |//");
