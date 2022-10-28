@@ -28,10 +28,6 @@ public class CrappyBot extends AdvancedRobot{
     public void run() {
         boolean start = true;
 
-
-
-
-
         addCustomEvent(new Condition("energyBuddies") {
             public boolean test() {
                 return (currentTarget.getEnergy() == getEnergy());

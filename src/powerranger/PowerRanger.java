@@ -26,7 +26,6 @@ public class PowerRanger extends AdvancedRobot {
     double bulletPower = 1;
 
     // Data för att bli mindre förutsägbar när vi rör oss längst med väggarna
-    byte moveDirectionWhileWalling = 1;
     double rand = 8;
     int timeToStop = 65;
 
@@ -41,7 +40,9 @@ public class PowerRanger extends AdvancedRobot {
             }
         });
 
-        initialize();
+        setAdjustRadarForGunTurn(true);
+        setAdjustGunForRobotTurn(true);
+
         // Vänder roboten mot väggen
         turnLeft(getHeading() % 90);
 
@@ -65,29 +66,15 @@ public class PowerRanger extends AdvancedRobot {
         }
     }
 
-    public void initialize() {
-        // Let the robot body, gun, and radar turn independently of each other
-        setAdjustRadarForGunTurn(true);
-        setAdjustGunForRobotTurn(true);
-
-        // Set robot colors
-        setBodyColor(new Color(23,23,23));
-        setGunColor(new Color(255,8,0));
-        setRadarColor(new Color(253,88,0));
-        setBulletColor(new Color(23,23,23));
-        setScanColor(new Color(0,255,255));
-
-    }
-
     public void WallMovement(){
         //Räknar ut hur jag ska åka längst väggarna
         if (Utils.isNear(getHeadingRadians(), 0D) || Utils.isNear(getHeadingRadians(), Math.PI)) {      //Utils.isNear returnerar true om differensen mellan de två argumenten är mindre än 1.0E-5, dvs 0.000010. I praktiken samma som == .Här betyder det true om vi är på väg (nästan) rakt norrut, eller (nästan) rakt söderut
-            ahead((Math.max(getBattleFieldHeight() - getY(), getY()) - 28) * 1);              //variabeln dir är alltid 1, men vi sparar den för nu, ifall vi vill använda den för att byta riktning.
+            ahead((Math.max(getBattleFieldHeight() - getY(), getY()) - 28));              //variabeln dir är alltid 1, men vi sparar den för nu, ifall vi vill använda den för att byta riktning.
             //framåt (slagfältets höjd - vår y position) eller (vår y position - 28)
         } else {
-            ahead((Math.max(getBattleFieldWidth() - getX(), getX()) - 28) * -1);
+            ahead((Math.max(getBattleFieldWidth() - getX(), getX()) - 28));
         }
-        turnRight(90 * 1);
+        turnRight(90);
     }
     public void DodgeMovment(){
         //Ändrar hur den åker
@@ -109,6 +96,8 @@ public class PowerRanger extends AdvancedRobot {
     }
 
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
+
+
         trackEnemy(scannedRobot);
         setColor();                             //bli schnygg
 
@@ -213,6 +202,7 @@ public class PowerRanger extends AdvancedRobot {
         out.println("Misses:" + totalBulletMiss);
         out.println("Accuracy:" + (totalBulletHit / totalBulletShot));
     }
+
     public void onCustomEvent(CustomEvent e) {
 
         if (e.getCondition().getName().equals("energyBuddies")) {
