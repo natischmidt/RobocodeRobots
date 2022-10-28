@@ -1,5 +1,6 @@
 package powerranger;
 
+import net.sf.robocode.battle.Battle;
 import robocode.AdvancedRobot;
 import robocode.BulletHitEvent;
 import robocode.ScannedRobotEvent;
@@ -105,9 +106,7 @@ public class PowerRanger extends AdvancedRobot {
             }
         }
     }
-    public void onRoundEnded(RoundEndedEvent event) {
-        Stats();
-    }
+
 
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
         trackEnemy(scannedRobot);
@@ -225,6 +224,10 @@ public class PowerRanger extends AdvancedRobot {
 
         }
     }
+    public void onBattleEnded(BattleEndedEvent event) {
+        Stats();
+    }
+
     public void setColor() {                                                        //anropar getRndColor för att sätta ny färg
         for (int i = 0; i < 100; i++) {
 
