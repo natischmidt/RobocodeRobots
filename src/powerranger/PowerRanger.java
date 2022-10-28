@@ -32,13 +32,14 @@ public class PowerRanger extends AdvancedRobot {
     int distansToWall = 28;
 
     boolean haveAlreadyGotAnEnergyBuddy = false;
+    String tempBuddy;
 
 
     public void run() {
 
         addCustomEvent(new Condition("energyBuddies") {                                 //lägger till ett mycket viktigt och nödvändigt custom event.
             public boolean test() {
-                return (currentTarget.getEnergy() == getEnergy());                             //returnerar true om vi har lika mycket energi som vårt target
+                return ((int)currentTarget.getEnergy() == (int)getEnergy());                             //returnerar true om vi har lika mycket energi som vårt target
             }
         });
 
@@ -68,7 +69,6 @@ public class PowerRanger extends AdvancedRobot {
         }
     }
 
-
     public void WallMovement(){
         //Räknar ut hur jag ska åka längst väggarna
         if (Utils.isNear(getHeadingRadians(), 0D) || Utils.isNear(getHeadingRadians(), Math.PI)) {      //Utils.isNear returnerar true om differensen mellan de två argumenten är mindre än 1.0E-5, dvs 0.000010. I praktiken samma som == .Här betyder det true om vi är på väg (nästan) rakt norrut, eller (nästan) rakt söderut
@@ -95,9 +95,12 @@ public class PowerRanger extends AdvancedRobot {
         }
     }
 
-
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
         trackEnemy(scannedRobot);
+
+        tempBuddy = scannedRobot.getName();
+
+
         setColor();                             //bli schnygg
 
         //data för att kunna sikta på fienden
@@ -194,12 +197,20 @@ public class PowerRanger extends AdvancedRobot {
             bulletMiss++;
     }
 
+    @Override
+    public void onHitByBullet(HitByBulletEvent event) {
+        super.onHitByBullet(event);
+        haveAlreadyGotAnEnergyBuddy = false;
+
+    }
+
     public void onCustomEvent(CustomEvent e) {
 
         if (e.getCondition().getName().equals("energyBuddies")) {
 
             while (!haveAlreadyGotAnEnergyBuddy) {
-                energyBuddies(getEnergy(), currentTarget.getName());
+
+                energyBuddies(getEnergy());
                 haveAlreadyGotAnEnergyBuddy = true;
             }
 
@@ -232,14 +243,13 @@ public class PowerRanger extends AdvancedRobot {
         return new Color(red, green, blue);
     }
 
-    public void energyBuddies (double energy, String name) {
+    public void energyBuddies (double energy) {
 
         if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {            //om scannad robot har lika mycket energi som vi och vår energi inte är 0 eller 100...
             //...så känner vi en djup samhörighet med den.
-            System.out.println("We both have " + (int)getEnergy() + " energy, " + currentTarget.getName() + ", we are energy buddies!");
+            System.out.println("We both have " + (int)getEnergy() + " energy, " + tempBuddy + ", we are energy buddies! \n");
 
             PrintOut.printOnMadeABuddyForLife();
-
 
         }
     }
