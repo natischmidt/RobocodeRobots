@@ -29,6 +29,7 @@ public class PowerRanger extends AdvancedRobot {
     byte moveDirectionWhileWalling = 1;
     double rand = 8;
     int timeToStop = 65;
+    int distansToWall = 28;
 
     boolean haveAlreadyGotAnEnergyBuddy = false;
 
@@ -82,10 +83,10 @@ public class PowerRanger extends AdvancedRobot {
     public void WallMovement(){
         //Räknar ut hur jag ska åka längst väggarna
         if (Utils.isNear(getHeadingRadians(), 0D) || Utils.isNear(getHeadingRadians(), Math.PI)) {      //Utils.isNear returnerar true om differensen mellan de två argumenten är mindre än 1.0E-5, dvs 0.000010. I praktiken samma som == .Här betyder det true om vi är på väg (nästan) rakt norrut, eller (nästan) rakt söderut
-            ahead((Math.max(getBattleFieldHeight() - getY(), getY()) - 28) * 1);              //variabeln dir är alltid 1, men vi sparar den för nu, ifall vi vill använda den för att byta riktning.
-            //framåt (slagfältets höjd - vår y position) eller (vår y position - 28)
+            ahead((Math.max(getBattleFieldHeight() - getY(), getY()) - distansToWall) * 1);              //variabeln dir är alltid 1, men vi sparar den för nu, ifall vi vill använda den för att byta riktning.
+            //framåt (slagfältets höjd - vår y position) eller (vår y position - distansToWall)
         } else {
-            ahead((Math.max(getBattleFieldWidth() - getX(), getX()) - 28) * -1);
+            ahead((Math.max(getBattleFieldWidth() - getX(), getX()) - distansToWall) * -1);
         }
         turnRight(90 * 1);
     }
