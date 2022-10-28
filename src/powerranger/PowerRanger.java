@@ -30,7 +30,7 @@ public class PowerRanger extends AdvancedRobot {
     // Data för att bli mindre förutsägbar när vi rör oss längst med väggarna
     double rand = 8;
     int timeToStop = 65;
-    int distansToWall = 28;
+    int wallMargin = 28;
 
     boolean haveAlreadyGotAnEnergyBuddy = false;
     Random random = new Random();
@@ -62,24 +62,24 @@ public class PowerRanger extends AdvancedRobot {
                 strafeEnemy();
             }
             else {
-                WallMovement();
-                DodgeMovment();
+                wallMovement();
+                dodgeMovement();
             }
             execute();
         }
     }
 
-    public void WallMovement(){
+    public void wallMovement(){
         //Räknar ut hur jag ska åka längst väggarna
         if (Utils.isNear(getHeadingRadians(), 0D) || Utils.isNear(getHeadingRadians(), Math.PI)) {      //Utils.isNear returnerar true om differensen mellan de två argumenten är mindre än 1.0E-5, dvs 0.000010. I praktiken samma som == .Här betyder det true om vi är på väg (nästan) rakt norrut, eller (nästan) rakt söderut
-            ahead((Math.max(getBattleFieldHeight() - getY(), getY()) - distansToWall));
+            ahead((Math.max(getBattleFieldHeight() - getY(), getY()) - wallMargin));
             //framåt (slagfältets höjd - vår y position) eller (vår y position - distansToWall)
         } else {
-            ahead((Math.max(getBattleFieldWidth() - getX(), getX()) - distansToWall));
+            ahead((Math.max(getBattleFieldWidth() - getX(), getX()) - wallMargin));
         }
         turnRight(90);
     }
-    public void DodgeMovment(){
+    public void dodgeMovement(){
         //Ändrar hur den åker
         timeToStop--;
         if (timeToStop < 1) {
@@ -107,7 +107,7 @@ public class PowerRanger extends AdvancedRobot {
 
         //Vill kalla den här ifrån också
         if(!isStrafing)
-            DodgeMovment();
+            dodgeMovement();
 
         // Beräkna firepower
         smartFire();
