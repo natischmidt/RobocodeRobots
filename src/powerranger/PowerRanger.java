@@ -206,13 +206,6 @@ public class PowerRanger extends AdvancedRobot {
             bulletMiss++;
     }
 
-    private void Stats() {
-        out.print("________________Round ended_________________________");
-        out.println("\nShots:" + totalBulletShot);
-        out.println("Hits:" + totalBulletHit);
-        out.println("Misses:" + totalBulletMiss);
-        out.println("Accuracy:" + (totalBulletHit / totalBulletShot));
-    }
     public void onCustomEvent(CustomEvent e) {
 
         if (e.getCondition().getName().equals("energyBuddies")) {
@@ -225,7 +218,11 @@ public class PowerRanger extends AdvancedRobot {
         }
     }
     public void onBattleEnded(BattleEndedEvent event) {
-        Stats();
+        out.print("________________GAME OVER ________________________");
+        out.println("\nShots:" + totalBulletShot);
+        out.println("Hits:" + totalBulletHit);
+        out.println("Misses:" + totalBulletMiss);
+        out.println("Accuracy:" + (totalBulletHit / totalBulletShot));
     }
 
     public void setColor() {                                                        //anropar getRndColor för att sätta ny färg
