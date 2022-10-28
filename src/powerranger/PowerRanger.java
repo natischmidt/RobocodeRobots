@@ -9,7 +9,6 @@ import robocode.*;
 import java.awt.*;
 import java.util.Random;
 
-
 public class PowerRanger extends AdvancedRobot {
     EnemyBot currentTarget = new EnemyBot();
 
@@ -32,10 +31,7 @@ public class PowerRanger extends AdvancedRobot {
     int distansToWall = 28;
 
     boolean haveAlreadyGotAnEnergyBuddy = false;
-    String tempBuddy;
     Random random = new Random();
-
-
 
     public void run() {
 
@@ -99,9 +95,6 @@ public class PowerRanger extends AdvancedRobot {
 
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
         trackEnemy(scannedRobot);
-
-        tempBuddy = scannedRobot.getName();
-
 
         setColor();                             //bli schnygg
 
@@ -248,7 +241,7 @@ public class PowerRanger extends AdvancedRobot {
 
         if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {            //om scannad robot har lika mycket energi som vi och vår energi inte är 0 eller 100...
             //...så känner vi en djup samhörighet med den.
-            System.out.println("We both have " + (int)getEnergy() + " energy, " + tempBuddy + ", we are energy buddies! \n");
+            System.out.println("We both have " + (int)getEnergy() + " energy, " + currentTarget.getName() + ", we are energy buddies! \n");
             PrintOut.printOnMadeABuddyForLife();
         }
     }
