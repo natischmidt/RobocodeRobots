@@ -29,10 +29,9 @@ public class PowerRanger extends AdvancedRobot {
     byte moveDirectionWhileWalling = 1;
     double rand = 8;
     int timeToStop = 65;
+
     boolean haveAlreadyGotAnEnergyBuddy = false;
-    int redCounter = 1;
-    int greenCounter = 90;
-    int blueCounter = 180;
+
 
     public void run() {
 
@@ -227,7 +226,7 @@ public class PowerRanger extends AdvancedRobot {
 
         }
     }
-    public void setColor() {
+    public void setColor() {                                                        //anropar getRndColor för att sätta ny färg
         for (int i = 0; i < 10000; i++) {
 
             setBodyColor(getRndColor());

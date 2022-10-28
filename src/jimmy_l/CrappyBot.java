@@ -28,7 +28,7 @@ public class CrappyBot extends AdvancedRobot{
     public void run() {
         boolean start = true;
 
-        System.out.println("test test test");
+
 
 
 
@@ -120,12 +120,9 @@ public class CrappyBot extends AdvancedRobot{
         }
     }
     public void onScannedRobot(ScannedRobotEvent e) {
-        synchronized(runThread) {
-            // Wake up threads! It's a new turn!
-            runThread.notifyAll();
-        }
+
         trackEnemy(e);
-        //setColor();
+        setColor();
 
 
         if (currentTarget.getEnergy() == 0) {
@@ -174,10 +171,10 @@ public class CrappyBot extends AdvancedRobot{
 //    }
 
     // throws InterruptedException
-    public void setColor() throws InterruptedException {
+    public void setColor() {
 
             for (int i = 0; i < 10000; i++) {
-                Thread.sleep(100);
+
                 setBodyColor(getRndColor());
                 setGunColor(getRndColor());
                 setRadarColor(getRndColor());
