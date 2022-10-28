@@ -43,6 +43,7 @@ public class PowerRanger extends AdvancedRobot {
             }
         });
 
+        setGunColor(Color.WHITE);
         setAdjustRadarForGunTurn(true);
         setAdjustGunForRobotTurn(true);
 
@@ -98,7 +99,8 @@ public class PowerRanger extends AdvancedRobot {
     public void onScannedRobot(ScannedRobotEvent scannedRobot) {
         trackEnemy(scannedRobot);
 
-        setColor();                             //bli schnygg
+
+        PowerRangers();
 
         //data för att kunna sikta på fienden
         double absBearing = scannedRobot.getBearingRadians() + getHeadingRadians();
@@ -228,24 +230,21 @@ public class PowerRanger extends AdvancedRobot {
         out.println("Accuracy: " + Math.round((totalBulletHit / totalBulletShot) * 100) + " %");
     }
 
+public void PowerRangers(){
+        int who = random.nextInt(5);
+    if (getTime() % 40 == 0) {
+    switch (who) {
+        case 0 -> setBodyColor(Color.red);
+        case 1 -> setBodyColor(Color.green);
+        case 2 -> setBodyColor(Color.blue);
+        case 3 -> setBodyColor(Color.yellow);
+        case 4 -> setBodyColor(Color.pink);
+        case 5 -> setBodyColor(Color.black);
+        default -> setBodyColor(Color.BLACK);
+    }}
 
-    public void setColor() {                                                        //anropar getRndColor för att sätta ny färg
-        for (int i = 0; i < 100; i++) {
+}
 
-            setBodyColor(getRndColor());
-            setGunColor(getRndColor());
-            setRadarColor(getRndColor());
-            setBulletColor(getRndColor());
-            setScanColor(getRndColor());
-        }
-    }
-    public Color getRndColor() {													//returnerar randomiserade värden 0-255
-        int red = random.nextInt(255);
-        int green = random.nextInt(255);
-        int blue = random.nextInt(255);
-
-        return new Color(red, green, blue);
-    }
 
     public void energyBuddies (double energy) {
 
