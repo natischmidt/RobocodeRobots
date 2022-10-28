@@ -33,6 +33,8 @@ public class PowerRanger extends AdvancedRobot {
 
     boolean haveAlreadyGotAnEnergyBuddy = false;
     String tempBuddy;
+    Random random = new Random();
+
 
 
     public void run() {
@@ -235,7 +237,6 @@ public class PowerRanger extends AdvancedRobot {
         }
     }
     public Color getRndColor() {													//returnerar randomiserade värden 0-255
-        Random random = new Random();
         int red = random.nextInt(255);
         int green = random.nextInt(255);
         int blue = random.nextInt(255);
@@ -248,9 +249,7 @@ public class PowerRanger extends AdvancedRobot {
         if (energy == getEnergy() && getEnergy() != 100 && getEnergy() != 0.0) {            //om scannad robot har lika mycket energi som vi och vår energi inte är 0 eller 100...
             //...så känner vi en djup samhörighet med den.
             System.out.println("We both have " + (int)getEnergy() + " energy, " + tempBuddy + ", we are energy buddies! \n");
-
             PrintOut.printOnMadeABuddyForLife();
-
         }
     }
     public void onDeath(DeathEvent e) {
