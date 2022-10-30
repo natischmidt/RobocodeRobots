@@ -2,35 +2,41 @@ package jimmy_b;
 
 import robocode.ScannedRobotEvent;
 
-public class EnemyBot {
+public class Target {
 
     private String name;
     private double bearing;
+    private double bearingRadians;
     private double distance;
     private double energy;
     private double heading;
+    private double headingRadians;
     private double velocity;
 
-    public EnemyBot() {
+    public Target() {
         reset();
     }
 
     public void reset(){
         this.name = "";
         this.bearing = 0.0;
+        this.bearingRadians = 0.0;
         this.distance = 0.0;
         this.energy = 0.0;
         this.heading = 0.0;
+        this.headingRadians = 0.0;
         this.velocity = 0.0;
     }
 
-    public void update(ScannedRobotEvent e){
-        this.name = e.getName();
-        this.bearing = e.getBearing();
-        this.distance = e.getDistance();
-        this.energy = e.getEnergy();
-        this.heading = e.getHeading();
-        this.velocity = e.getVelocity();
+    public void update(ScannedRobotEvent scannedRobot){
+        this.name = scannedRobot.getName();
+        this.bearing = scannedRobot.getBearing();
+        this.bearingRadians = scannedRobot.getBearingRadians();
+        this.distance = scannedRobot.getDistance();
+        this.energy = scannedRobot.getEnergy();
+        this.heading = scannedRobot.getHeading();
+        this.headingRadians = scannedRobot.getHeadingRadians();
+        this.velocity = scannedRobot.getVelocity();
     }
 
     public String getName() {
@@ -39,6 +45,10 @@ public class EnemyBot {
 
     public double getBearing() {
         return bearing;
+    }
+
+    public double getBearingRadians() {
+        return bearingRadians;
     }
 
     public double getDistance() {
@@ -51,6 +61,10 @@ public class EnemyBot {
 
     public double getHeading() {
         return heading;
+    }
+
+    public double getHeadingRadians() {
+        return headingRadians;
     }
 
     public double getVelocity() {
