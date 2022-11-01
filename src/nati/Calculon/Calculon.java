@@ -11,16 +11,38 @@ public class Calculon extends AdvancedRobot{
     static double BulletsShot;
     static double hitEnemybyBullet;
     static double missedBullet;
-    private byte moveDirection = 1;
+    int moveDirection = 1;
+    int Mode = 0;
+    double normalizeBearing(double angle) {
+        while (angle >  180) angle -= 360;
+        while (angle < -180) angle += 360;
+        return angle;
+    }
 
 
     public void run() {
 
         initialize();
         while (true) {
-            Radar();
-            Movement();
+            if (getRadarTurnRemaining() == 0.0) {
+                setTurnRadarRightRadians(Double.POSITIVE_INFINITY);
+            }
             scan();
+
+            if (getOthers() > 3) {
+                WallMovement();
+                Mode = 1;
+            } else if (getOthers() > 1) {
+                // dodging is the best small-group tactic
+                CircleMovement();
+                Mode = 2;
+            } else if (getOthers() == 1) {
+                // if there's only one bot left, hunt him down
+                CLosingin();
+                Mode = 3;
+
+            }
+            execute();
         }
     }
 
@@ -40,16 +62,28 @@ public class Calculon extends AdvancedRobot{
         setScanColor(new Color(218,165,32));
 
     }
-    public void Radar() {
-        /* Infinity lock vilket innebär att det scannas efter fienden , och sedan scannas det bara av igen ifall
-        vi har tappat bort fienden*/
-        if (getRadarTurnRemaining() == 0.0) {
-            setTurnRadarRightRadians(Double.POSITIVE_INFINITY);
-        }
 
+
+    public void CircleMovement() {
+
+        // switch directions if we've stopped
+        if (getVelocity() == 0)
+            moveDirection *= -1;
+
+        // circle our enemy
+        setTurnRight(currentTarget.getBearing() + 90);
+        setAhead(1000 * moveDirection);
     }
 
-    public void Movement(){
+    public void CLosingin(){
+        setTurnRight(normalizeBearing(currentTarget.getBearing() + 90 - (15 * moveDirection)));
+        if (getTime() % 20 == 0) {
+            moveDirection *= -1;
+            setAhead(150 * moveDirection);
+
+        }}
+
+    public void WallMovement(){
         // Här bestämms rörelsemönstret, längst väggen motsols
         this.moveAmount = Math.max(this.getBattleFieldWidth(), this.getBattleFieldHeight());
         this.peek = false;
@@ -71,9 +105,14 @@ public class Calculon extends AdvancedRobot{
         double radarTurn= Utils.normalRelativeAngle(angletoEnemy - getRadarHeadingRadians());
         //36.0 är mitten av fienden som scannas
         double extraturn = Math.min(Math.atan(36.0 / e.getDistance()) , Rules.RADAR_TURN_RATE_RADIANS);
-        radarTurn += (radarTurn < 0 ? -extraturn : extraturn);
+
+        if (radarTurn < 0)
+            radarTurn -= extraturn;
+        else
+            radarTurn += extraturn;
         // är det då vänster vänder vi oss mer till vänster och likadant med häger vilket ger ett stor scanning område
         setTurnRadarRightRadians(radarTurn);
+
 
         double headOnBearing = getHeadingRadians() + e.getBearingRadians();
         double bulletPower = 2;
@@ -83,6 +122,8 @@ public class Calculon extends AdvancedRobot{
         smartFire();
 
     }
+
+
     private void trackEnemy(ScannedRobotEvent scannedRobot) {
         if (// Om vi saknar en target, eller...
                 currentTarget.none() ||
@@ -106,20 +147,20 @@ public class Calculon extends AdvancedRobot{
         missedBullet++;
     }
 
-        private void smartFire() {
-            // The gun isn't overheated or too far away from the target
-            if (getGunHeat() == 0 && Math.abs(getGunTurnRemaining()) < 20) {
-                // If the enemy isn't moving...
-                if (currentTarget.getVelocity() == 0)
-                    setFire(3);
-                else
-                    // Adjust firepower to the distance of our target, or...
-                    setFire(Math.min(Math.min(500 / currentTarget.getDistance(), 3),
-                            // shoot with the least amount of bullet power to kill off the target!
-                            (currentTarget.getEnergy() / 4)));
-                BulletsShot++;
-            }
+    private void smartFire() {
+        // The gun isn't overheated or too far away from the target
+        if (getGunHeat() == 0 && Math.abs(getGunTurnRemaining()) < 20) {
+            // If the enemy isn't moving...
+            if (currentTarget.getVelocity() == 0)
+                setFire(3);
+            else
+                // Adjust firepower to the distance of our target, or...
+                setFire(Math.min(Math.min(500 / currentTarget.getDistance(), 3),
+                        // shoot with the least amount of bullet power to kill off the target!
+                        (currentTarget.getEnergy() / 4)));
+            BulletsShot++;
         }
+    }
 
     @Override
     public void onBattleEnded(BattleEndedEvent event) {

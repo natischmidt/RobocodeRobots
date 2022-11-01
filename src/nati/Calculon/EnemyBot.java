@@ -2,6 +2,7 @@ package nati.Calculon;
 
 import robocode.ScannedRobotEvent;
 
+
 public class EnemyBot {
     private String name;
     private double bearing;
