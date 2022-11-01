@@ -1,7 +1,7 @@
 # Dokumenation Calculon
 ### Beskriv, övergripande, robotens struktur/uppbyggnad.
-Caluclon är en advanced Robot anpassar sig efter antal fienden i matchen för att bestämma sitt rörelsemönster.
-Roboten skjuter sparsamt med en SmartFire funktion och sikta med linjear aiming. 
+Caluclon är en advanced Robot anpassar sig efter antal fiender i matchen för att bestämma sitt rörelsemönster.
+Roboten skjuter sparsamt med en SmartFire funktion och siktar med linjär aiming. 
 
 
 
@@ -12,26 +12,26 @@ Roboten skjuter sparsamt med en SmartFire funktion och sikta med linjear aiming.
 ### Beskriv de implementeringar som gjorts i samband med varje vald metod (till exempel onScannedRobot), beskriv här den strategi/taktik som ni valt för er robot avseende de metoder ni valt.
 ### Run 
 I run methoden används Width lock radar. Denna radar försöker skanna ett fast avstånd till båda sidorna av fienden. 
- Dess ständiga rörelse innebär att radarn inte glider ifrån fienden och jag anser denna som den bästa radar för en robot som ska både var bra emot grupp och mot bara en fiende. 
+ Dess ständiga rörelse innebär att radarn inte glider ifrån fienden och jag anser att denna är den bästa radarn för en robot som ska både var bra emot grupp och mot bara en fiende. 
 
-Efter det scannas det av efter antal fienden. Är antalet fienden större än 3 används Wallmovement, detta då man vill hålla sig borta från alla men samtidigt skjuta.
-Är antalet fienden större än 1 används CircleMovement, vilket är precis som det låter en method för att kunna åka circla runt fienderna detta är ett bra sätt att dogdga skott.
-Och slutlgien om det bara är en fiende kvar andäner colcunon closingin vilket är en strafing method som sakta  närmare sig fienden. Sytet men den är att doggda skott samtidgt med att gå efter sista fienden.
+Efter det scannas det för att avgöra antalet fiender. Är antalet fienden större än 3 används Wallmovement, detta då man vill hålla sig borta från fienderna men samtidigt skjuta.
+Är antalet fiender större än 1 används CircleMovement, vilket är, precis som det låter, en method för att kunna åka i cirkulära banor krinf fienderna. Detta är ett bra sätt att dogdga skott.
+Slutligen, om det bara är en fiende kvar använder colcunon closingin, vilket är en strafing method där roboten sakta  närmar sig fienden. Syftet men det är att undvika skott samtidgt som att gå efter sista fienden.
 
 ###### initialize 
-Här sätts både radarforgunturn och setadjustgunforrobot till true detta gör att robotens body, pistol och radar kan röra sig oberoende av varandra.
+Här sätts både radarforgunturn och setadjustgunforrobot till true. Detta gör att robotens body, pistol och radar kan röra sig oberoende av varandra.
 Det är viktig för alla typer av radar och för att kunna uppnå en bra träffsäkerhet.
 
 ### CircleMovement
-En method som med hjälp av currenTarget ta reda på fiendens riktning och sedan circla runt den. Tanken med denna method är att kunna undiika skott, denna method anropas
-vid mindre än 3 fiende och mer än en 1, allstå när 2 fiende är kvar. Anledning till detta är att varken strafing eller wallsmovment skulle kunna va så effektik som denna,
+En method som med hjälp av currenTarget ta reda på fiendens riktning och sedan cirkulera runt den. Tanken med denna method är att kunna undvika att bli träffad ac skott, denna method används
+vid mindre än 3 fiende och mer än en 1, allstå när 2 fiende är kvar. Anledning till detta är att varken strafing eller wallsmovment skulle kunna vara så effektik som denna,
 Med strafing går man ut ifrån sin valda fiende, detta skulle i detta fall gör caluclon sårbar för andra bakom eller nära. Wallmovement kan i vissa fall vara effektiv här,
-men circling är helt klart det bästa i 1v2, även om rörelsen här också går utifrån en fiende så är calcloun mindre sårbar med circling här. 
+men circling är helt klart det bästa i 1v2, även om rörelsen här också går utifrån en fiende så är calcloun mindre sårbar med circling.
 
 ### Closingin
-Här har vi strafing, strafing innebär att man rör sig sida till sida i förhållande till sin fiende.
+Här har vi strafing. Strafing innebär att man rör sig sida till sida i förhållande till sin fiende.
 I closing in, åker calculon i förhållade till sitt target, men närmar sig target stegviss. 
-I ett försök att vara mindre förutsägbar byter roboten rikting var 20.ende tick. 
+I ett försök att vara mindre förutsägbar byter roboten rikting var 20nde tick. 
 
 ### Wallmovement
 Denna method räknar ut höjden och bredden på slagsfälltet för att kunna åka längst väggarna.
