@@ -69,7 +69,14 @@ och linjär siktning. Förståss finns det både för och nackdelar med detta, t
 skjuta linjärt ifall man möter en robot som byter rörelsemönster jämnt. Calculon skulle har haft en 1v1
 strategi, en var att ramma och strafa vid 1v1 en annan var ett spinbot liknade mönster. Problemet
 som jag upplevde då var att min precision gick ner enormt, och att jag behövde lägga till oerhört mycket
-kod för att få till det.
+kod för att få till det. Darför valde jag olika rörelsemönster istället och behöll linjär siktning. 
 
 
+### Beskriv de eventuella problem som du/ni stötte på i samband med arbetet. Valde ni bort någon del som ni inte fick till? Vilken del var svårast att få till?
+Jag tyckte att svårast va att komma fram till ideer och sätt att vidareutveckla roboten efter jag hade gjort det jag hade
+tänkt i början. Gruppen jag gick med i hjälpte mycket med detta, då jag fick flera ideer samt kunde hjälpa andra att
+vidareutveckla sina ideer. Efter det så var det lite svårt att få ner min tanke om olika strategie i koden, jag tänkte först
+att jag skulle ha olike radars samt olika skjutningsmethoder och rörelsemönster. Det visade sig att det inte behövdes och det
+bästa var att ändra rörelsemönstret. 
 
+### Utifrån er plan samt de idéer ni hade från början, tycker du att ni uppnådde ert önskade resultat?

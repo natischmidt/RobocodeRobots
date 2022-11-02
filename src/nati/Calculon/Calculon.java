@@ -12,7 +12,7 @@ public class Calculon extends AdvancedRobot{
     static double hitEnemybyBullet;
     static double missedBullet;
     int moveDirection = 1;
-    int Mode = 0;
+
     double normalizeBearing(double angle) {
         while (angle >  180) angle -= 360;
         while (angle < -180) angle += 360;
@@ -31,15 +31,15 @@ public class Calculon extends AdvancedRobot{
 
             if (getOthers() > 3) {
                 WallMovement();
-                Mode = 1;
+
             } else if (getOthers() > 1) {
-                // dodging is the best small-group tactic
+                // dodging
                 CircleMovement();
-                Mode = 2;
+
             } else if (getOthers() == 1) {
-                // if there's only one bot left, hunt him down
+                //hunt him down
                 CLosingin();
-                Mode = 3;
+
 
             }
             execute();
@@ -73,6 +73,13 @@ public class Calculon extends AdvancedRobot{
         // circle our enemy
         setTurnRight(currentTarget.getBearing() + 90);
         setAhead(1000 * moveDirection);
+    }
+    public void onRobotDeath(RobotDeathEvent e) {
+        // om vår target har dött...
+        if (e.getName().equals(currentTarget.getName())) {
+            // rensa datan, så att vi kan få en ny måltavla!
+            currentTarget.reset();
+        }
     }
 
     public void CLosingin(){

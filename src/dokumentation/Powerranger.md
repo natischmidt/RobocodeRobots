@@ -27,7 +27,7 @@ b)	Dodgemovement() -  Methoden har en räknare som börjar på 65. Varje gång m
 c)	energyBuddies  public void energyBuddies (double energy, String name) – Detta är ett custom event som triggas ifall en fiende har samma energy som roboten, förutom när det är 0 eller 100, och då skrivs det ut ett fint bild i consolen.
 2.	onScannedRobot
 a)	trackenemy – Med hjälp av enemybot klassen, sätts en target av fienden vi har scannat. Sedan byts target ifall att en annan fiende befinner sig närmare, eller att en annan fiende har mindre energie än tidiagre target eller ifall vi scannaer en fiende som vi redan har scannat.
-b)	strafeEnemy – efter att beräkna rätt distans mot fienden, åker roboten likt en triangel i förhållande till fienden.
+b)	strafeEnemy – efter att beräkna rätt distans mot fienden, åker roboten likt en triangel i förhållande till fiendens postition.
 c)	smartFire – Kolla att gunheat är 0 och sedan beroende på om fienden står till eller inte tas bulletPower och justeras till avståendet av fienden. Står fienden still skjuts med full kraft (3). Siktat klart, för vi kommer träffa de om vi står still skjuta med lagre kraft och inte skjuta med fullkraft om det inte behovs, 500 pixlar bort bli 1 skjutkraft, etc.
 3.	onRobotDeath – Ifall fienden som var vår måltavla dör, letar vi efter ett nytt target.
 4.	onBattleenden– Här skrivs ut antalet skott, träffen, missade skott samt precision av alla skott.
