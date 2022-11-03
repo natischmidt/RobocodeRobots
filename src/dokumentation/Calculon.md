@@ -80,3 +80,6 @@ att jag skulle ha olike radars samt olika skjutningsmethoder och rörelsemönste
 bästa var att ändra rörelsemönstret. 
 
 ### Utifrån er plan samt de idéer ni hade från början, tycker du att ni uppnådde ert önskade resultat?
+Colcunon uppfyllde mine förväntaningar definitivt. Han vann tyvärr inte sitt Heat, men vann alla enskilda battles.
+Och även i sitt Heat så gjorde han precis som jag hade tänkt, skjuter och träffa mycket, och han bytte strategier.
+
