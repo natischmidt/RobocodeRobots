@@ -1,4 +1,3 @@
-
 # Dokumenation Powerranger
 ### Beskriv, övergripande, robotens struktur/uppbyggnad.
 
@@ -61,4 +60,6 @@ Vår tanke att kunna ramma fienden medans vi åker längst väggarna gick inte i
 olika typer av radars.
 
 ### Utifrån er plan samt de idéer ni hade från början, tycker du att ni uppnådde ert önskade resultat?
+Jag tycker att vi uppfyllde att vi hade tänkt i början. Powerranger vann sitt heat och några enskila möten klarade han också.
+
 
